@@ -33,7 +33,7 @@ const urlBarSchema = yup.object().shape({
 
 const UrlBarWrapper = styled(Box)`
   display: flex;
-  padding: 1rem;
+  padding: 1.5rem 1rem;
   border-bottom: thin solid ${({ theme }) => theme.palette.grey[900]};
 `;
 
