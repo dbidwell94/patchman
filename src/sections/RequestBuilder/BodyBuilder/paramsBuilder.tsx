@@ -16,6 +16,7 @@ import {
 import React, { useState } from "react";
 import { nanoid } from "nanoid";
 import DeleteIcon from "@mui/icons-material/DeleteOutline";
+import { Preview } from "@mui/icons-material";
 
 const TableInput = styled(Input)`
   &::before {
@@ -36,6 +37,10 @@ interface IQueryParam {
 export default function ParamsBuilder() {
   const [params, setParams] = useState<IQueryParam[]>([]);
 
+  const [paramToAdd, setParamToAdd] = useState<
+    Partial<Omit<IQueryParam, "id">>
+  >({});
+
   function editQueryParam(param: IQueryParam) {
     return (evt: React.ChangeEvent<HTMLInputElement>) => {
       evt.preventDefault();
@@ -51,7 +56,9 @@ export default function ParamsBuilder() {
     };
   }
 
-  function addQueryParam(param: Omit<IQueryParam, "id">) {}
+  function addQueryParam(param: Omit<IQueryParam, "id">) {
+    setParams((prev) => [...prev, { ...param, id: nanoid() }]);
+  }
 
   function deleteQueryParam(param: IQueryParam) {
     return (evt: React.MouseEvent<HTMLButtonElement>) => {
@@ -107,6 +114,7 @@ export default function ParamsBuilder() {
                       <IconButton
                         color="error"
                         onClick={deleteQueryParam(param)}
+                        size="small"
                       >
                         <DeleteIcon />
                       </IconButton>
@@ -115,12 +123,34 @@ export default function ParamsBuilder() {
                 </TableRow>
               );
             })}
-            <TableRow>
+            <TableRow
+              onBlur={() => {
+                if (!paramToAdd.key || !paramToAdd.value) return;
+                addQueryParam({ key: paramToAdd.key, value: paramToAdd.value });
+                setParamToAdd({});
+              }}
+            >
               <TableCell>
-                <TableInput placeholder="newKey" />
+                <TableInput
+                  placeholder="newKey"
+                  value={paramToAdd.key || ""}
+                  onChange={(e) => {
+                    setParamToAdd((prev) => {
+                      return { ...prev, key: e.target.value };
+                    });
+                  }}
+                />
               </TableCell>
               <TableCell>
-                <TableInput placeholder="newValue" />
+                <TableInput
+                  placeholder="newValue"
+                  value={paramToAdd.value || ""}
+                  onChange={(e) => {
+                    setParamToAdd((prev) => {
+                      return { ...prev, value: e.target.value };
+                    });
+                  }}
+                />
               </TableCell>
               <TableCell></TableCell>
             </TableRow>
