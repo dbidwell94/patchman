@@ -1,7 +1,7 @@
 import MuiLink from "@/components/MuiLink";
 import { Box, styled, Tabs, Tab } from "@mui/material";
 import { useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import AuthBuilder from "./authBuilder";
 import HeaderBuilder from "./headerBuilder";
 import ParamsBuilder from "./paramsBuilder";
@@ -39,6 +39,7 @@ export default function BodyBuilder() {
         <Route path="body" element={<RequestBodyBuilder />} />
         <Route path="headers" element={<HeaderBuilder />} />
         <Route path="auth" element={<AuthBuilder />} />
+        <Route path="" element={<Navigate to="params" />} />
       </Routes>
     </BodyBuilderWrapper>
   );
