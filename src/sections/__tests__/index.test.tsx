@@ -6,7 +6,7 @@ import GlobalThemeWrapper from "@/theme";
 
 describe("src/sections/index.tsx", () => {
   it("renders without error", () => {
-    const {} = render(
+    render(
       <GlobalThemeWrapper>
         <Router>
           <PageSections />

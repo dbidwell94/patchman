@@ -14,6 +14,7 @@ specifiers:
   '@types/react-dom': ^18.0.7
   '@vitejs/plugin-react': ^2.1.0
   '@vitest/coverage-c8': ^0.24.3
+  '@vitest/ui': ^0.24.3
   jsdom: ^20.0.1
   nanoid: ^4.0.0
   react: ^18.2.0
@@ -47,12 +48,13 @@ devDependencies:
   '@types/react': 18.0.22
   '@types/react-dom': 18.0.7
   '@vitejs/plugin-react': 2.1.0_vite@3.1.8
-  '@vitest/coverage-c8': 0.24.3_jsdom@20.0.1
+  '@vitest/coverage-c8': 0.24.3_i7ukxxwfoxepyk4smtl6oue4oi
+  '@vitest/ui': 0.24.3
   jsdom: 20.0.1
   typescript: 4.8.4
   vite: 3.1.8
   vite-tsconfig-paths: 3.5.2_vite@3.1.8
-  vitest: 0.24.3_jsdom@20.0.1
+  vitest: 0.24.3_i7ukxxwfoxepyk4smtl6oue4oi
 
 packages:
 
@@ -704,6 +706,10 @@ packages:
       react-is: 18.2.0
     dev: false
 
+  /@polka/url/1.0.0-next.21:
+    resolution: {integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==}
+    dev: true
+
   /@popperjs/core/2.11.6:
     resolution: {integrity: sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==}
     dev: false
@@ -927,11 +933,11 @@ packages:
       - supports-color
     dev: true
 
-  /@vitest/coverage-c8/0.24.3_jsdom@20.0.1:
+  /@vitest/coverage-c8/0.24.3_i7ukxxwfoxepyk4smtl6oue4oi:
     resolution: {integrity: sha512-tAmMyHxWYnAwGeJb7QgTuEX8aLasTg4X1/6INobXa/7wYGEJ28CACFO5iLn1HzFVPoLvhsS3luQjiflGjjSMRQ==}
     dependencies:
       c8: 7.12.0
-      vitest: 0.24.3_jsdom@20.0.1
+      vitest: 0.24.3_i7ukxxwfoxepyk4smtl6oue4oi
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/browser'
@@ -943,6 +949,12 @@ packages:
       - stylus
       - supports-color
       - terser
+    dev: true
+
+  /@vitest/ui/0.24.3:
+    resolution: {integrity: sha512-f5agYA/sdkiipq42TZayJoeUGjWx+opDjIVeNnb1SG2BNxqObFqh6GuJlzpGHerg4a2+ZSoVo4f4p2+dEyXPmg==}
+    dependencies:
+      sirv: 2.0.2
     dev: true
 
   /abab/2.0.6:
@@ -2155,6 +2167,11 @@ packages:
     resolution: {integrity: sha512-bzfL1YUZsP41gmu/qjrEk0Q6i2ix/cVeAhbCbqH9u3zYutS1cLg00qhrD0M2MVdCcx4Sc0UpP2eBWo9rotpq6g==}
     dev: true
 
+  /mrmime/1.0.1:
+    resolution: {integrity: sha512-hzzEagAgDyoU1Q6yg5uI+AorQgdvMCur3FcKf7NhMKWsaYg+RnbTyHRa/9IlLF9rf455MOCtcqqrQQ83pPP7Uw==}
+    engines: {node: '>=10'}
+    dev: true
+
   /ms/2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
     dev: true
@@ -2542,6 +2559,15 @@ packages:
     resolution: {integrity: sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==}
     dev: true
 
+  /sirv/2.0.2:
+    resolution: {integrity: sha512-4Qog6aE29nIjAOKe/wowFTxOdmbEZKb+3tsLljaBRzJwtqto0BChD2zzH0LhgCSXiI+V7X+Y45v14wBZQ1TK3w==}
+    engines: {node: '>= 10'}
+    dependencies:
+      '@polka/url': 1.0.0-next.21
+      mrmime: 1.0.1
+      totalist: 3.0.0
+    dev: true
+
   /slash/3.0.0:
     resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==}
     engines: {node: '>=8'}
@@ -2693,6 +2719,11 @@ packages:
     resolution: {integrity: sha512-0a5EOkAUp8D4moMi2W8ZF8jcga7BgZd91O/yabJCFY8az+XSzeGyTKs0Aoo897iV1Nj6guFq8orWDS96z91oGg==}
     dev: false
 
+  /totalist/3.0.0:
+    resolution: {integrity: sha512-eM+pCBxXO/njtF7vdFsHuqb+ElbxqtI4r5EAvk6grfAFyJ6IvWlSkfZ5T9ozC6xWw3Fj1fGoSmrl0gUs46JVIw==}
+    engines: {node: '>=6'}
+    dev: true
+
   /tough-cookie/4.1.2:
     resolution: {integrity: sha512-G9fqXWoYFZgTc2z8Q5zaHy/vJMjm+WV0AkAeHxVCQiEB1b+dGvWzFW6QV07cY5jQ5gRkeid2qIkzkxUnmoQZUQ==}
     engines: {node: '>=6'}
@@ -2827,7 +2858,7 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest/0.24.3_jsdom@20.0.1:
+  /vitest/0.24.3_i7ukxxwfoxepyk4smtl6oue4oi:
     resolution: {integrity: sha512-aM0auuPPgMSstWvr851hB74g/LKaKBzSxcG3da7ejfZbx08Y21JpZmbmDYrMTCGhVZKqTGwzcnLMwyfz2WzkhQ==}
     engines: {node: '>=v14.16.0'}
     hasBin: true
@@ -2852,6 +2883,7 @@ packages:
       '@types/chai': 4.3.3
       '@types/chai-subset': 1.3.3
       '@types/node': 18.11.4
+      '@vitest/ui': 0.24.3
       chai: 4.3.6
       debug: 4.3.4
       jsdom: 20.0.1
