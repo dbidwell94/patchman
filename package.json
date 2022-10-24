@@ -8,7 +8,10 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "test": "vitest run",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@emotion/react": "^11.10.4",
@@ -26,12 +29,17 @@
   },
   "devDependencies": {
     "@tauri-apps/cli": "^1.1.1",
+    "@testing-library/react": "^13.4.0",
     "@types/node": "^18.11.4",
     "@types/react": "^18.0.22",
     "@types/react-dom": "^18.0.7",
     "@vitejs/plugin-react": "^2.1.0",
+    "@vitest/coverage-c8": "^0.24.3",
+    "@vitest/ui": "^0.24.3",
+    "jsdom": "^20.0.1",
     "typescript": "^4.8.4",
     "vite": "^3.1.8",
-    "vite-tsconfig-paths": "^3.5.2"
+    "vite-tsconfig-paths": "^3.5.2",
+    "vitest": "^0.24.3"
   }
 }

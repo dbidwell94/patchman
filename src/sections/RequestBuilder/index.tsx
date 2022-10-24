@@ -16,9 +16,9 @@ interface IRequestContext {
 
 export default function RequestBuilder() {
   return (
-    <RequestBuilderWrapper>
-        <UrlBar />
-        <BodyBuilder />
+    <RequestBuilderWrapper data-testid="requestBuilder">
+      <UrlBar />
+      <BodyBuilder />
     </RequestBuilderWrapper>
   );
 }
