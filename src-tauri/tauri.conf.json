@@ -16,7 +16,7 @@
     "bundle": {
       "active": true,
       "category": "DeveloperTool",
-      "copyright": "",
+      "copyright": "MIT",
       "deb": {
         "depends": []
       },
@@ -29,7 +29,7 @@
         "icons/icon.ico"
       ],
       "identifier": "com.biddydev.patchman",
-      "longDescription": "",
+      "longDescription": "An open source API tester built on Tauri (Rust) and React (TypeScript)",
       "macOS": {
         "entitlements": null,
         "exceptionDomain": "",
