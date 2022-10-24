@@ -21,7 +21,7 @@ export default function BodyBuilder() {
   const [tabIndex, setTabIndex] = useState(0);
 
   return (
-    <BodyBuilderWrapper>
+    <BodyBuilderWrapper data-testid="bodyBuilder">
       <TabWrapper>
         <Tabs
           indicatorColor="secondary"

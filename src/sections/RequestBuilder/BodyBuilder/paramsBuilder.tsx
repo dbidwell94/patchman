@@ -86,7 +86,7 @@ export default function ParamsBuilder() {
               </TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody data-testid="paramsTable">
             {params.map((param) => {
               return (
                 <TableRow key={param.id}>

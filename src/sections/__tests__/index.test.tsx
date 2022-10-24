@@ -1,10 +1,11 @@
-import { describe, it, expect } from "vitest";
-import { render } from "@testing-library/react";
-import { BrowserRouter as Router } from "react-router-dom";
+import { describe, it, expect, afterEach } from "vitest";
+import { render, cleanup } from "@testing-library/react";
+import { MemoryRouter as Router } from "react-router-dom";
 import PageSections from "../index";
 import GlobalThemeWrapper from "@/theme";
 
 describe("src/sections/index.tsx", () => {
+  afterEach(cleanup);
   it("renders without error", () => {
     render(
       <GlobalThemeWrapper>
@@ -13,5 +14,17 @@ describe("src/sections/index.tsx", () => {
         </Router>
       </GlobalThemeWrapper>
     );
+  });
+
+  it("Should navigate to /rest/* by default", () => {
+    const { getByTestId } = render(
+      <GlobalThemeWrapper>
+        <Router initialEntries={["/"]}>
+          <PageSections />
+        </Router>
+      </GlobalThemeWrapper>
+    );
+
+    expect(getByTestId("requestBuilder")).toBeTruthy();
   });
 });
