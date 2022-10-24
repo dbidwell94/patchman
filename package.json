@@ -1,7 +1,8 @@
 {
   "name": "mailman",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1-alpha",
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "dev": "vite",
