@@ -6,7 +6,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [macos-latest, ubuntu-20.04, windows-latest]
+        platform: [ubuntu-20.04]
 
     runs-on: ${{ matrix.platform }}
     steps:
@@ -26,4 +26,6 @@ jobs:
         sudo apt-get install -y libgtk-3-dev webkit2gtk-4.0 libappindicator3-dev librsvg2-dev patchelf
     - name: install app dependencies and build it
       run: npm i -g pnpm && pnpm i && pnpm build && pnpm test
+    - name: Test Tauri app
+      run: cd src-tauri && cargo test
 
