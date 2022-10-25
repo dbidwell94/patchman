@@ -16,7 +16,6 @@ import {
 import React, { useState } from "react";
 import { nanoid } from "nanoid";
 import DeleteIcon from "@mui/icons-material/DeleteOutline";
-import { Preview } from "@mui/icons-material";
 
 const TableInput = styled(Input)`
   &::before {
@@ -26,6 +25,7 @@ const TableInput = styled(Input)`
 
 const ParamsBuilderWrapper = styled(Box)`
   padding: 0.5rem 1rem;
+  overflow-y: scroll;
 `;
 
 interface IQueryParam {
@@ -34,7 +34,11 @@ interface IQueryParam {
   value: string;
 }
 
-export default function ParamsBuilder() {
+interface IParamsBuilderProps {
+  height: number;
+}
+
+export default function ParamsBuilder(props: IParamsBuilderProps) {
   const [params, setParams] = useState<IQueryParam[]>([]);
 
   const [paramToAdd, setParamToAdd] = useState<
@@ -70,7 +74,7 @@ export default function ParamsBuilder() {
   }
 
   return (
-    <ParamsBuilderWrapper>
+    <ParamsBuilderWrapper height={`${props.height}%`}>
       <TableContainer component={Paper}>
         <Table size="small" stickyHeader>
           <TableHead>

@@ -7,21 +7,21 @@ import HeaderBuilder from "./headerBuilder";
 import ParamsBuilder from "./paramsBuilder";
 import RequestBodyBuilder from "./requestBodyBuilder";
 
-const BodyBuilderWrapper = styled(Box)`
-  flex: 1;
-`;
-
 const TabWrapper = styled(Box)`
   border-bottom: thin solid ${({ theme }) => theme.palette.grey[900]};
   padding: 0 1rem;
   width: 100%;
 `;
 
-export default function BodyBuilder() {
+interface IBodyBuilderProps {
+  height: number;
+}
+
+export default function BodyBuilder(props: IBodyBuilderProps) {
   const [tabIndex, setTabIndex] = useState(0);
 
   return (
-    <BodyBuilderWrapper data-testid="bodyBuilder">
+    <Box data-testid="bodyBuilder" overflow="hidden">
       <TabWrapper>
         <Tabs
           indicatorColor="secondary"
@@ -35,12 +35,15 @@ export default function BodyBuilder() {
         </Tabs>
       </TabWrapper>
       <Routes>
-        <Route path="params" element={<ParamsBuilder />} />
+        <Route
+          path="params"
+          element={<ParamsBuilder height={props.height - 20} />}
+        />
         <Route path="body" element={<RequestBodyBuilder />} />
         <Route path="headers" element={<HeaderBuilder />} />
         <Route path="auth" element={<AuthBuilder />} />
         <Route path="" element={<Navigate to="params" />} />
       </Routes>
-    </BodyBuilderWrapper>
+    </Box>
   );
 }

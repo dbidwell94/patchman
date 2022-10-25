@@ -11,7 +11,6 @@ export default function PageSections() {
     <PageSectionsWrapper>
       <Routes>
         <Route path="/rest/*" element={<RequestBuilder />} />
-
         <Route path="/" element={<Navigate to="/rest" />} />
       </Routes>
     </PageSectionsWrapper>
