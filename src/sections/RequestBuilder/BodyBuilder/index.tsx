@@ -7,40 +7,23 @@ import HeaderBuilder from "./headerBuilder";
 import ParamsBuilder from "./paramsBuilder";
 import RequestBodyBuilder from "./requestBodyBuilder";
 
-const BodyBuilderWrapper = styled(Box)`
-  flex: 1;
-`;
+interface IBodyBuilderProps {
+  height: number;
+}
 
-const TabWrapper = styled(Box)`
-  border-bottom: thin solid ${({ theme }) => theme.palette.grey[900]};
-  padding: 0 1rem;
-  width: 100%;
-`;
-
-export default function BodyBuilder() {
-  const [tabIndex, setTabIndex] = useState(0);
-
+export default function BodyBuilder(props: IBodyBuilderProps) {
   return (
-    <BodyBuilderWrapper>
-      <TabWrapper>
-        <Tabs
-          indicatorColor="secondary"
-          value={tabIndex}
-          onChange={(_, num) => setTabIndex(num)}
-        >
-          <Tab label="Params" href="params" LinkComponent={MuiLink} />
-          <Tab label="Body" href="body" LinkComponent={MuiLink} />
-          <Tab label="Headers" href="headers" LinkComponent={MuiLink} />
-          <Tab label="Authorization" href="auth" LinkComponent={MuiLink} />
-        </Tabs>
-      </TabWrapper>
+    <Box data-testid="bodyBuilder" height={`${props.height}%`}>
       <Routes>
-        <Route path="params" element={<ParamsBuilder />} />
+        <Route
+          path="params"
+          element={<ParamsBuilder />}
+        />
         <Route path="body" element={<RequestBodyBuilder />} />
         <Route path="headers" element={<HeaderBuilder />} />
         <Route path="auth" element={<AuthBuilder />} />
         <Route path="" element={<Navigate to="params" />} />
       </Routes>
-    </BodyBuilderWrapper>
+    </Box>
   );
 }

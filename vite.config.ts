@@ -1,9 +1,8 @@
-import { defineConfig } from "vite";
+import { defineConfig, UserConfigExport } from "vite";
 import react from "@vitejs/plugin-react";
-import tsconfigPaths from 'vite-tsconfig-paths';
+import tsconfigPaths from "vite-tsconfig-paths";
 
-// https://vitejs.dev/config/
-export default defineConfig({
+export const config: UserConfigExport = {
   plugins: [react(), tsconfigPaths()],
 
   // Vite optons tailored for Tauri development and only applied in `tauri dev` or `tauri build`
@@ -25,4 +24,7 @@ export default defineConfig({
     // produce sourcemaps for debug builds
     sourcemap: !!process.env.TAURI_DEBUG,
   },
-});
+};
+
+// https://vitejs.dev/config/
+export default defineConfig(config);
