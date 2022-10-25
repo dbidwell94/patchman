@@ -25,7 +25,7 @@ const TableInput = styled(Input)`
 
 const ParamsBuilderWrapper = styled(Box)`
   padding: 0.5rem 1rem;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
 `;
 
 interface IQueryParam {
@@ -35,11 +35,15 @@ interface IQueryParam {
 }
 
 interface IParamsBuilderProps {
-  height: number;
+  
 }
 
 export default function ParamsBuilder(props: IParamsBuilderProps) {
-  const [params, setParams] = useState<IQueryParam[]>([]);
+  const [params, setParams] = useState<IQueryParam[]>([
+    { id: nanoid(), key: "height", value: "testing123" },
+    { id: nanoid(), key: "height", value: "testing123" },
+    { id: nanoid(), key: "height", value: "testing123" },
+  ]);
 
   const [paramToAdd, setParamToAdd] = useState<
     Partial<Omit<IQueryParam, "id">>
@@ -74,7 +78,7 @@ export default function ParamsBuilder(props: IParamsBuilderProps) {
   }
 
   return (
-    <ParamsBuilderWrapper height={`${props.height}%`}>
+    <ParamsBuilderWrapper>
       <TableContainer component={Paper}>
         <Table size="small" stickyHeader>
           <TableHead>
