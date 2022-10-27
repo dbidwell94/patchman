@@ -34,16 +34,10 @@ interface IQueryParam {
   value: string;
 }
 
-interface IParamsBuilderProps {
-  
-}
+interface IParamsBuilderProps {}
 
 export default function ParamsBuilder(props: IParamsBuilderProps) {
-  const [params, setParams] = useState<IQueryParam[]>([
-    { id: nanoid(), key: "height", value: "testing123" },
-    { id: nanoid(), key: "height", value: "testing123" },
-    { id: nanoid(), key: "height", value: "testing123" },
-  ]);
+  const [params, setParams] = useState<IQueryParam[]>([]);
 
   const [paramToAdd, setParamToAdd] = useState<
     Partial<Omit<IQueryParam, "id">>
