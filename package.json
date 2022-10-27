@@ -1,7 +1,7 @@
 {
   "name": "patchman",
   "private": true,
-  "version": "0.0.4-alpha",
+  "version": "0.0.5-alpha",
   "license": "MIT",
   "type": "module",
   "scripts": {
@@ -17,20 +17,24 @@
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "@fontsource/ubuntu": "^4.5.11",
+    "@fontsource/ubuntu-mono": "^4.5.11",
     "@mui/icons-material": "^5.10.9",
     "@mui/material": "^5.10.10",
     "@tauri-apps/api": "^1.1.0",
     "nanoid": "^4.0.0",
+    "prismjs": "^1.29.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router": "^6.4.2",
     "react-router-dom": "^6.4.2",
+    "react-simple-code-editor": "^0.13.1",
     "yup": "^0.32.11"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^1.1.1",
     "@testing-library/react": "^13.4.0",
     "@types/node": "^18.11.4",
+    "@types/prismjs": "^1.26.0",
     "@types/react": "^18.0.22",
     "@types/react-dom": "^18.0.7",
     "@vitejs/plugin-react": "^2.1.0",
