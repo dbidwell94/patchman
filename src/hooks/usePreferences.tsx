@@ -8,7 +8,7 @@ export interface IPreferences {
 
 const initialPreferencesState: IPreferences = {
   bodyBuilderSeperatorLocation: 25,
-  requestBuilderTabIndex: 1,
+  requestBuilderTabIndex: 0,
   urlHistory: [],
 };
 

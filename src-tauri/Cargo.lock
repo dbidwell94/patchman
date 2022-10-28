@@ -1843,7 +1843,7 @@ checksum = "b1de2e551fb905ac83f73f7aedf2f0cb4a0da7e35efa24a202a936269f1f18e1"
 name = "patchman"
 version = "0.0.0"
 dependencies = [
- "raxios",
+ "reqwest",
  "serde",
  "serde_json",
  "tauri",
@@ -2197,22 +2197,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "raxios"
-version = "0.5.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "18081663692955da305f82eeea82faab3e7ab165756f308ad16bc2717048dd94"
-dependencies = [
- "anyhow",
- "bytes",
- "reqwest",
- "serde",
- "serde-xml-rs",
- "serde_json",
- "serde_urlencoded",
- "thiserror",
-]
-
-[[package]]
 name = "redox_syscall"
 version = "0.2.16"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2472,18 +2456,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d193d69bae983fc11a79df82342761dfbf28a99fc8d203dca4c3c1b590948965"
 dependencies = [
  "serde_derive",
-]
-
-[[package]]
-name = "serde-xml-rs"
-version = "0.6.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fb3aa78ecda1ebc9ec9847d5d3aba7d618823446a049ba2491940506da6e2782"
-dependencies = [
- "log",
- "serde",
- "thiserror",
- "xml-rs",
 ]
 
 [[package]]
