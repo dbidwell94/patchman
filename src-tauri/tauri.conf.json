@@ -6,8 +6,8 @@
     "distDir": "../dist"
   },
   "package": {
-    "productName": "patchman",
-    "version": "0.0.5"
+    "productName": "Patchman",
+    "version": "0.0.6"
   },
   "tauri": {
     "allowlist": {
@@ -57,7 +57,7 @@
         "fullscreen": false,
         "minHeight": 600,
         "resizable": true,
-        "title": "PatchMan",
+        "title": "Patchman",
         "minWidth": 800
       }
     ]
