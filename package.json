@@ -1,7 +1,7 @@
 {
   "name": "patchman",
   "private": true,
-  "version": "0.0.6-alpha",
+  "version": "0.0.7-alpha",
   "license": "MIT",
   "type": "module",
   "scripts": {
