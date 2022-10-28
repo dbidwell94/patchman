@@ -3,8 +3,9 @@ import MoveIcon from "@mui/icons-material/MoreHoriz";
 import BodyBuilder from "./BodyBuilder";
 import UrlBar from "./urlBar";
 import RequestResponse from "./requestResponse";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import MuiLink from "@/components/MuiLink";
+import { useAppPreferences } from "@/hooks/usePreferences";
 
 const RequestBuilderWrapper = styled(Box)`
   flex-direction: column;
@@ -36,18 +37,26 @@ const TabWrapper = styled(Box)`
   width: 100%;
 `;
 
-interface IRequestContext {
-  url: string;
-  params: Record<string, string>;
-  headers: Record<string, number | string>;
-}
-
 export default function RequestBuilder() {
-  const [seperator, setSeperator] = useState(25);
+  const [preferences, setPreferences] = useAppPreferences();
+  const [seperator, setSeperator] = useState(
+    preferences.bodyBuilderSeperatorLocation
+  );
   const [draggingSeperator, setDraggingSeperator] = useState(false);
-  const [tabIndex, setTabIndex] = useState(0);
+  const [tabIndex, setTabIndex] = useState(preferences.requestBuilderTabIndex);
 
   const seperatorRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setPreferences((prev) => ({
+      ...prev,
+      bodyBuilderSeperatorLocation: seperator,
+    }));
+  }, [seperator]);
+
+  useEffect(() => {
+    setPreferences((prev) => ({ ...prev, requestBuilderTabIndex: tabIndex }));
+  }, [tabIndex]);
 
   function handleMouseMove(evt: React.MouseEvent<HTMLDivElement>): void {
     if (!draggingSeperator || !seperatorRef.current) return;

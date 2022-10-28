@@ -8,27 +8,20 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as yup from "yup";
 import SendIcon from "@mui/icons-material/Send";
 import SaveIcon from "@mui/icons-material/Save";
+import { HttpMethod, useRequestBody } from "@/hooks/useRequestBody";
 
 // enum of supported HTTP methods
-enum HttpMethod {
-  Get = "GET",
-  Post = "POST",
-  Put = "PUT",
-  Patch = "PATCH",
-  Delete = "DELETE",
-  Options = "OPTIONS",
-}
 
 const urlBarSchema = yup.object().shape({
   method: yup.string().required().oneOf(Object.values(HttpMethod)),
   url: yup
     .string()
-    .required("This field is required")
-    .url("This is not a valid URL"),
+    .matches(/^(http:\/\/)?\w+(\.\w+)*(:[0-9]+)?\/?(\/[.\w]*)*$/, "Enter a correct URL")
+    .required("Please enter a URL"),
 });
 
 const UrlBarWrapper = styled(Box)`
@@ -42,14 +35,23 @@ const ErrorText = styled(Typography)`
 `;
 
 export default function UrlBar() {
+  const [requestBody, setRequestBody] = useRequestBody();
   const [formValues, setFormValues] = useState({
-    url: "",
-    method: HttpMethod.Get,
+    url: requestBody.url,
+    method: requestBody.method,
   });
   const [formErrors, setFormErrors] = useState({
     url: "",
     method: "",
   });
+
+  useEffect(() => {
+    setRequestBody((prev) => ({
+      ...prev,
+      url: formValues.url,
+      method: formValues.method,
+    }));
+  }, [formValues.method, formValues.url]);
 
   const submitDisabled = Object.values(formErrors).every((val) => {
     return !Boolean(val);

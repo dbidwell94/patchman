@@ -1,7 +1,8 @@
 import { Box, styled } from "@mui/material";
 import Sidebar from "@/components/Sidebar";
-import { BrowserRouter as Router } from "react-router-dom";
 import PageSections from "@/sections";
+import RequestBodyProvider from "./hooks/useRequestBody";
+import PreferencesProvider from "./hooks/usePreferences";
 
 const AppWrapper = styled(Box)`
   width: 100%;
@@ -11,11 +12,13 @@ const AppWrapper = styled(Box)`
 
 export default function App() {
   return (
-    <Router>
-      <AppWrapper>
-        <Sidebar />
-        <PageSections />
-      </AppWrapper>
-    </Router>
+      <RequestBodyProvider>
+        <PreferencesProvider>
+          <AppWrapper>
+            <Sidebar />
+            <PageSections />
+          </AppWrapper>
+        </PreferencesProvider>
+      </RequestBodyProvider>
   );
 }

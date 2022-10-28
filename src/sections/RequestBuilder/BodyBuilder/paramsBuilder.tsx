@@ -13,9 +13,10 @@ import {
   IconButton,
   Tooltip,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 import DeleteIcon from "@mui/icons-material/DeleteOutline";
+import { useRequestBody } from "@/hooks/useRequestBody";
 
 const TableInput = styled(Input)`
   &::before {
@@ -37,7 +38,28 @@ interface IQueryParam {
 interface IParamsBuilderProps {}
 
 export default function ParamsBuilder(props: IParamsBuilderProps) {
+  const [requestBody, setRequestBody] = useRequestBody();
   const [params, setParams] = useState<IQueryParam[]>([]);
+
+  useEffect(() => {
+    const initialState: IQueryParam[] = [];
+    Object.keys(requestBody.params).forEach((key) => {
+      initialState.push({
+        id: nanoid(),
+        key,
+        value: requestBody.params[key],
+      });
+    });
+    setParams(initialState);
+  }, []);
+
+  useEffect(() => {
+    const newRequestBodyParams: typeof requestBody.params = {};
+    params.forEach((param) => {
+      newRequestBodyParams[param.key] = param.value;
+    });
+    setRequestBody((prev) => ({ ...prev, params: newRequestBodyParams }));
+  }, [params]);
 
   const [paramToAdd, setParamToAdd] = useState<
     Partial<Omit<IQueryParam, "id">>
