@@ -5,15 +5,11 @@
 
 mod request;
 
-use request::{add_new_query_param, get_request_state, RequestState};
+use request::{make_request};
 
 fn main() {
     tauri::Builder::default()
-        .manage(RequestState(Default::default()))
-        .invoke_handler(tauri::generate_handler![
-            get_request_state,
-            add_new_query_param
-        ])
+        .invoke_handler(tauri::generate_handler![make_request])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

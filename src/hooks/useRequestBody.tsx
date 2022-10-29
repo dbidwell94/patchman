@@ -9,7 +9,7 @@ export enum HttpMethod {
   Options = "OPTIONS",
 }
 
-interface IRequestContext {
+export interface IRequestContext {
   url: string;
   params: Record<string, string>;
   headers: Record<string, number | string>;
