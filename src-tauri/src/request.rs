@@ -7,6 +7,7 @@ use std::str::FromStr;
 #[derive(Serialize, Deserialize, Debug)]
 pub struct RequestError {
     status: Option<u16>,
+    url: Option<String>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -88,6 +89,7 @@ pub async fn make_request(req: Request) -> Result<Response, RequestError> {
         Err(err) => {
             to_return = Err(RequestError {
                 status: err.status().map(|s| s.as_u16()),
+                url: err.url().map(|u| u.to_string()),
             })
         }
     };
