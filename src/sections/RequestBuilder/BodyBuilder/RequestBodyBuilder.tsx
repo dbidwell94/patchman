@@ -1,23 +1,11 @@
 import { highlight, languages } from "prismjs";
 import { useState, useEffect } from "react";
-import Editor from "react-simple-code-editor";
-import { useTheme, styled } from "@mui/material";
+import { useTheme } from "@mui/material";
 import { useRequestBody } from "@/hooks/useRequestBody";
-
-import "prismjs/themes/prism-okaidia.min.css";
-
-const StyledEditor = styled(Editor)`
-  width: 100%;
-  height: 100%;
-  font-family: "Ubuntu Mono", monospace;
-  font-size: 18px;
-  &::selection {
-    border: none;
-  }
-`;
+import StyledEditor from "@/components/StyledEditor";
 
 export default function RequestBodyBuilder() {
-  const [requestBody, setRequestBody] = useRequestBody();
+  const [[requestBody, setRequestBody]] = useRequestBody();
   const theme = useTheme();
   const [body, setBody] = useState(requestBody.body || "");
 
@@ -36,6 +24,10 @@ export default function RequestBodyBuilder() {
         color: theme.palette.text.primary,
       }}
       placeholder="No Request Body"
+      tabSize={1}
+      insertSpaces={true}
+      ignoreTabKey={false}
+      padding={1}
     />
   );
 }

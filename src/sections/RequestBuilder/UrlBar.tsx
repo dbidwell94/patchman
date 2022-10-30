@@ -4,15 +4,12 @@ import * as yup from "yup";
 import SendIcon from "@mui/icons-material/Send";
 import SaveIcon from "@mui/icons-material/Save";
 import { HttpMethod, useRequestBody } from "@/hooks/useRequestBody";
-import { makeRequest } from "@/api";
-
-// enum of supported HTTP methods
 
 const urlBarSchema = yup.object().shape({
   method: yup.string().required().oneOf(Object.values(HttpMethod)),
   url: yup
     .string()
-    .matches(/^(https?:\/\/)?(www\.)?\w+(\.\w+)*?\.\w+(\/.*)$/, "Enter a correct URL")
+    .matches(/^https?:\/\/(www\.)?\w+(\.\w+)*?\.\w+(\/.*)?$/, "Enter a correct URL")
     .required("Please enter a URL"),
 });
 
@@ -27,7 +24,7 @@ const ErrorText = styled(Typography)`
 `;
 
 export default function UrlBar() {
-  const [requestBody, setRequestBody] = useRequestBody();
+  const [[requestBody, setRequestBody], sendRequest] = useRequestBody();
   const [formValues, setFormValues] = useState({
     url: requestBody.url,
     method: requestBody.method,
@@ -36,6 +33,7 @@ export default function UrlBar() {
     url: "",
     method: "",
   });
+  const [requestLoading, setRequestLoading] = useState(false);
 
   useEffect(() => {
     setRequestBody((prev) => ({
@@ -45,16 +43,19 @@ export default function UrlBar() {
     }));
   }, [formValues.method, formValues.url]);
 
-  const submitDisabled = Object.values(formErrors).every((val) => {
-    return !Boolean(val);
-  });
+  const submitDisabled =
+    Object.values(formErrors).every((val) => {
+      return !Boolean(val);
+    }) || requestLoading;
 
   const urlInputRef = useRef(null);
   const methodInputRef = useRef(null);
 
   async function onSubmit(evt: React.MouseEvent<HTMLButtonElement>) {
     evt.preventDefault();
-    await makeRequest(requestBody);
+    setRequestLoading(true);
+    await sendRequest();
+    setRequestLoading(false);
   }
 
   function handleChange(evt: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) {

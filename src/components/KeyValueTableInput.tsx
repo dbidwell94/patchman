@@ -1,5 +1,7 @@
 import {
   Box,
+  IconButton,
+  Input,
   Paper,
   styled,
   Table,
@@ -8,15 +10,17 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Typography,
-  Input,
-  IconButton,
   Tooltip,
+  Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { nanoid } from "nanoid";
 import DeleteIcon from "@mui/icons-material/DeleteOutline";
-import { useRequestBody } from "@/hooks/useRequestBody";
+import React, { useState } from "react";
+import { nanoid } from "nanoid";
+
+const ParamsBuilderWrapper = styled(Box)`
+  padding: 0.5rem 1rem;
+  overflow-y: auto;
+`;
 
 const TableInput = styled(Input)`
   &::before {
@@ -24,74 +28,51 @@ const TableInput = styled(Input)`
   }
 `;
 
-const ParamsBuilderWrapper = styled(Box)`
-  padding: 0.5rem 1rem;
-  /* overflow-y: scroll; */
-`;
-
-interface IQueryParam {
-  id: string;
+interface ITableValue {
   key: string;
   value: string;
 }
 
-interface IParamsBuilderProps {}
+export interface IKeyedTableValue extends ITableValue {
+  id: string;
+}
 
-export default function ParamsBuilder(props: IParamsBuilderProps) {
-  const [requestBody, setRequestBody] = useRequestBody();
-  const [params, setParams] = useState<IQueryParam[]>([]);
+interface ITableInputProps {
+  items: IKeyedTableValue[];
+  onDelete: (item: IKeyedTableValue) => void;
+  onAdded: (item: IKeyedTableValue) => void;
+  editItem: (newItemValue: IKeyedTableValue) => void;
+}
 
-  useEffect(() => {
-    const initialState: IQueryParam[] = [];
-    Object.keys(requestBody.params).forEach((key) => {
-      initialState.push({
-        id: nanoid(),
-        key,
-        value: requestBody.params[key],
+export function useKeyValueTableInputState(initialState: IKeyedTableValue[]) {
+  const [items, setItems] = useState(initialState);
+
+  function editItem(item: IKeyedTableValue) {
+    setItems((prev) => {
+      return prev.map((i) => {
+        if (i.id !== item.id) return i;
+        return item;
       });
     });
-    setParams(initialState);
-  }, []);
+  }
 
-  useEffect(() => {
-    const newRequestBodyParams: typeof requestBody.params = {};
-    params.forEach((param) => {
-      newRequestBodyParams[param.key] = param.value;
+  function addItem(item: IKeyedTableValue) {
+    setItems((prev) => [...prev, item]);
+  }
+
+  function deleteItem(item: IKeyedTableValue) {
+    setItems((prev) => {
+      return prev.filter((i) => i.id !== item.id);
     });
-    setRequestBody((prev) => ({ ...prev, params: newRequestBodyParams }));
-  }, [params]);
-
-  const [paramToAdd, setParamToAdd] = useState<
-    Partial<Omit<IQueryParam, "id">>
-  >({});
-
-  function editQueryParam(param: IQueryParam) {
-    return (evt: React.ChangeEvent<HTMLInputElement>) => {
-      evt.preventDefault();
-      const { id: editedId } = param;
-      const { name, value } = evt.target;
-
-      setParams((prev) => {
-        return prev.map((p) => {
-          if (p.id !== editedId) return p;
-          return { ...p, [name]: value };
-        });
-      });
-    };
   }
 
-  function addQueryParam(param: Omit<IQueryParam, "id">) {
-    setParams((prev) => [...prev, { ...param, id: nanoid() }]);
-  }
+  return { items, editItem, addItem, deleteItem, setItems };
+}
 
-  function deleteQueryParam(param: IQueryParam) {
-    return (evt: React.MouseEvent<HTMLButtonElement>) => {
-      evt.preventDefault();
-      setParams((prev) => {
-        return prev.filter((p) => p.id !== param.id);
-      });
-    };
-  }
+export default function KeyValueTableInput(props: ITableInputProps) {
+  const { items, onDelete, editItem, onAdded } = props;
+
+  const [itemToAdd, setItemToAdd] = useState<Partial<Omit<IKeyedTableValue, "id">>>({});
 
   return (
     <ParamsBuilderWrapper>
@@ -111,25 +92,29 @@ export default function ParamsBuilder(props: IParamsBuilderProps) {
             </TableRow>
           </TableHead>
           <TableBody data-testid="paramsTable">
-            {params.map((param) => {
+            {items.map((item) => {
               return (
-                <TableRow key={param.id}>
+                <TableRow key={item.id}>
                   <TableCell>
                     <TableInput
                       size="small"
-                      value={param.key}
+                      value={item.key}
                       name="key"
                       fullWidth
-                      onChange={editQueryParam(param)}
+                      onChange={(evt) => {
+                        editItem({ ...item, key: evt.target.value });
+                      }}
                     />
                   </TableCell>
                   <TableCell>
                     <TableInput
                       size="small"
-                      value={param.value}
+                      value={item.value}
                       fullWidth
                       name="value"
-                      onChange={editQueryParam(param)}
+                      onChange={(evt) => {
+                        editItem({ ...item, value: evt.target.value });
+                      }}
                     />
                   </TableCell>
                   <TableCell>
@@ -137,7 +122,9 @@ export default function ParamsBuilder(props: IParamsBuilderProps) {
                     <Tooltip title="Delete Parameter">
                       <IconButton
                         color="error"
-                        onClick={deleteQueryParam(param)}
+                        onClick={() => {
+                          onDelete(item);
+                        }}
                         size="small"
                       >
                         <DeleteIcon />
@@ -149,17 +136,17 @@ export default function ParamsBuilder(props: IParamsBuilderProps) {
             })}
             <TableRow
               onBlur={() => {
-                if (!paramToAdd.key || !paramToAdd.value) return;
-                addQueryParam({ key: paramToAdd.key, value: paramToAdd.value });
-                setParamToAdd({});
+                if (!itemToAdd.key || !itemToAdd.value) return;
+                onAdded({ key: itemToAdd.key, value: itemToAdd.value, id: nanoid() });
+                setItemToAdd({});
               }}
             >
               <TableCell>
                 <TableInput
                   placeholder="newKey"
-                  value={paramToAdd.key || ""}
+                  value={itemToAdd.key || ""}
                   onChange={(e) => {
-                    setParamToAdd((prev) => {
+                    setItemToAdd((prev) => {
                       return { ...prev, key: e.target.value };
                     });
                   }}
@@ -168,9 +155,9 @@ export default function ParamsBuilder(props: IParamsBuilderProps) {
               <TableCell>
                 <TableInput
                   placeholder="newValue"
-                  value={paramToAdd.value || ""}
+                  value={itemToAdd.value || ""}
                   onChange={(e) => {
-                    setParamToAdd((prev) => {
+                    setItemToAdd((prev) => {
                       return { ...prev, value: e.target.value };
                     });
                   }}

@@ -3,6 +3,8 @@ import Sidebar from "@/components/Sidebar";
 import PageSections from "@/sections";
 import RequestBodyProvider from "./hooks/useRequestBody";
 import PreferencesProvider from "./hooks/usePreferences";
+import "prismjs/themes/prism-dark.min.css";
+import ResponseBodyProvider from "@/hooks/useResponseBody";
 
 const AppWrapper = styled(Box)`
   width: 100%;
@@ -12,13 +14,15 @@ const AppWrapper = styled(Box)`
 
 export default function App() {
   return (
-      <RequestBodyProvider>
+    <RequestBodyProvider>
+      <ResponseBodyProvider>
         <PreferencesProvider>
           <AppWrapper>
             <Sidebar />
             <PageSections />
           </AppWrapper>
         </PreferencesProvider>
-      </RequestBodyProvider>
+      </ResponseBodyProvider>
+    </RequestBodyProvider>
   );
 }
