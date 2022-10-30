@@ -55,7 +55,8 @@ export default function UrlBar() {
   async function onSubmit(evt: React.MouseEvent<HTMLButtonElement>) {
     evt.preventDefault();
     setRequestLoading(true);
-    await makeRequest(requestBody);
+    const res = await makeRequest(requestBody);
+    console.log(res);
     setRequestLoading(false);
   }
 

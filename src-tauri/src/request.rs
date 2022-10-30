@@ -33,6 +33,7 @@ pub struct Response {
     status: u16,
     headers: HashMap<String, String>,
     body: Option<String>,
+    url: String,
 }
 
 #[tauri::command]
@@ -73,6 +74,7 @@ pub async fn make_request(req: Request) -> Result<Response, RequestError> {
         Ok(res) => {
             let status = res.status().as_u16();
             let mut headers: HashMap<String, String> = HashMap::new();
+            let url = res.url().to_string();
             for (k, v) in res.headers() {
                 headers.insert(k.to_string(), v.to_str().unwrap().to_string());
             }
@@ -84,6 +86,7 @@ pub async fn make_request(req: Request) -> Result<Response, RequestError> {
                 status,
                 body: Some(response_body),
                 headers,
+                url,
             });
         }
         Err(err) => {
