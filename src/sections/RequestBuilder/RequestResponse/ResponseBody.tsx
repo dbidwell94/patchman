@@ -9,7 +9,7 @@ export default function ResponseBody() {
 
   return (
     <StyledEditor
-      value={body?.body || ""}
+      value={body?.body || "No Data"}
       style={{
         background: theme.palette.background.default,
         color: theme.palette.text.primary,
