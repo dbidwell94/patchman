@@ -1,9 +1,9 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
 import { render, cleanup } from "@testing-library/react";
-import ParamsBuilder from "../paramsBuilder";
+import ParamsBuilder from "../ParamsBuilder";
 import GlobalThemeWrapper from "@/theme";
 
-describe("src/sections/RequestBuilder/BodyBuilder/paramsBuilder.tsx", () => {
+describe("src/sections/RequestBuilder/BodyBuilder/ParamsBuilder.tsx", () => {
   afterEach(cleanup);
   it("Mounts without errors", () => {
     render(

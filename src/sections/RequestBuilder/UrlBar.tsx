@@ -1,26 +1,15 @@
-import {
-  Box,
-  Button,
-  MenuItem,
-  Popper,
-  Select,
-  styled,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button, MenuItem, Popper, Select, styled, TextField, Typography } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import * as yup from "yup";
 import SendIcon from "@mui/icons-material/Send";
 import SaveIcon from "@mui/icons-material/Save";
 import { HttpMethod, useRequestBody } from "@/hooks/useRequestBody";
 
-// enum of supported HTTP methods
-
 const urlBarSchema = yup.object().shape({
   method: yup.string().required().oneOf(Object.values(HttpMethod)),
   url: yup
     .string()
-    .matches(/^(http:\/\/)?\w+(\.\w+)*(:[0-9]+)?\/?(\/[.\w]*)*$/, "Enter a correct URL")
+    .matches(/^https?:\/\/(www\.)?\w+(\.\w+)*?\.\w+(\/.*)?$/, "Enter a correct URL")
     .required("Please enter a URL"),
 });
 
@@ -35,7 +24,7 @@ const ErrorText = styled(Typography)`
 `;
 
 export default function UrlBar() {
-  const [requestBody, setRequestBody] = useRequestBody();
+  const [[requestBody, setRequestBody], sendRequest] = useRequestBody();
   const [formValues, setFormValues] = useState({
     url: requestBody.url,
     method: requestBody.method,
@@ -44,6 +33,7 @@ export default function UrlBar() {
     url: "",
     method: "",
   });
+  const [requestLoading, setRequestLoading] = useState(false);
 
   useEffect(() => {
     setRequestBody((prev) => ({
@@ -53,18 +43,22 @@ export default function UrlBar() {
     }));
   }, [formValues.method, formValues.url]);
 
-  const submitDisabled = Object.values(formErrors).every((val) => {
-    return !Boolean(val);
-  });
+  const submitDisabled =
+    Object.values(formErrors).every((val) => {
+      return !Boolean(val);
+    }) || requestLoading;
 
   const urlInputRef = useRef(null);
   const methodInputRef = useRef(null);
 
-  function handleChange(
-    evt: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >
-  ) {
+  async function onSubmit(evt: React.MouseEvent<HTMLButtonElement>) {
+    evt.preventDefault();
+    setRequestLoading(true);
+    await sendRequest();
+    setRequestLoading(false);
+  }
+
+  function handleChange(evt: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) {
     evt.preventDefault();
     const { name, value } = evt.target;
 
@@ -102,10 +96,7 @@ export default function UrlBar() {
           </MenuItem>
         ))}
       </Select>
-      <Popper
-        open={Boolean(formErrors.method)}
-        anchorEl={methodInputRef.current}
-      >
+      <Popper open={Boolean(formErrors.method)} anchorEl={methodInputRef.current}>
         <ErrorText>{formErrors.method}</ErrorText>
       </Popper>
 
@@ -128,14 +119,11 @@ export default function UrlBar() {
           disabled={!submitDisabled}
           sx={{ height: "100%", marginLeft: "1rem" }}
           endIcon={<SendIcon />}
+          onClick={onSubmit}
         >
           Send
         </Button>
-        <Button
-          variant="outlined"
-          sx={{ height: "100%" }}
-          endIcon={<SaveIcon />}
-        >
+        <Button variant="outlined" sx={{ height: "100%" }} endIcon={<SaveIcon />}>
           Save
         </Button>
       </Box>

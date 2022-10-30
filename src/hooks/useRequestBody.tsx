@@ -1,4 +1,7 @@
-import { useContext, useState, createContext, PropsWithChildren } from "react";
+import React, { useContext, useState, createContext, PropsWithChildren } from "react";
+import { useResponseBody } from "@/hooks/useResponseBody";
+import { invoke } from "@tauri-apps/api/tauri";
+import type { IResponse } from "@/hooks/useResponseBody";
 
 export enum HttpMethod {
   Get = "GET",
@@ -9,7 +12,7 @@ export enum HttpMethod {
   Options = "OPTIONS",
 }
 
-interface IRequestContext {
+export interface IRequestContext {
   url: string;
   params: Record<string, string>;
   headers: Record<string, number | string>;
@@ -17,9 +20,9 @@ interface IRequestContext {
   body?: string;
 }
 
-const RequestBodyContext = createContext<
-  [IRequestContext, React.Dispatch<React.SetStateAction<IRequestContext>>]
->([
+type IRequestContextReturn = [IRequestContext, React.Dispatch<React.SetStateAction<IRequestContext>>];
+
+const RequestBodyContext = createContext<IRequestContextReturn>([
   {
     url: "",
     params: {},
@@ -30,8 +33,25 @@ const RequestBodyContext = createContext<
   () => {},
 ]);
 
-export function useRequestBody() {
-  return useContext(RequestBodyContext);
+export function useRequestBody(): [IRequestContextReturn, () => Promise<void>] {
+  const [_, setResponseBody] = useResponseBody();
+  const [requestBody, setRequestBody] = useContext(RequestBodyContext);
+
+  async function send() {
+    let toReturn: IResponse | null = null;
+    try {
+      toReturn = await invoke<IResponse>("make_request", { req: requestBody });
+    } catch (err: any) {
+      if (err.status || err.url) {
+        toReturn = { body: null, headers: {}, url: err.url || "", status: err.status || 500 };
+      } else {
+        throw err;
+      }
+    }
+    setResponseBody(toReturn);
+  }
+
+  return [[requestBody, setRequestBody], send];
 }
 
 export default function RequestBodyProvider(props: PropsWithChildren) {
@@ -43,9 +63,5 @@ export default function RequestBodyProvider(props: PropsWithChildren) {
     method: HttpMethod.Get,
   });
 
-  return (
-    <RequestBodyContext.Provider value={requestState}>
-      {props.children}
-    </RequestBodyContext.Provider>
-  );
+  return <RequestBodyContext.Provider value={requestState}>{props.children}</RequestBodyContext.Provider>;
 }
