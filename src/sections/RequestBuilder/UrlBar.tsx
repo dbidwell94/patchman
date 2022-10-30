@@ -4,7 +4,6 @@ import * as yup from "yup";
 import SendIcon from "@mui/icons-material/Send";
 import SaveIcon from "@mui/icons-material/Save";
 import { HttpMethod, useRequestBody } from "@/hooks/useRequestBody";
-import { makeRequest } from "@/api";
 
 const urlBarSchema = yup.object().shape({
   method: yup.string().required().oneOf(Object.values(HttpMethod)),
@@ -25,7 +24,7 @@ const ErrorText = styled(Typography)`
 `;
 
 export default function UrlBar() {
-  const [requestBody, setRequestBody] = useRequestBody();
+  const [[requestBody, setRequestBody], sendRequest] = useRequestBody();
   const [formValues, setFormValues] = useState({
     url: requestBody.url,
     method: requestBody.method,
@@ -55,8 +54,7 @@ export default function UrlBar() {
   async function onSubmit(evt: React.MouseEvent<HTMLButtonElement>) {
     evt.preventDefault();
     setRequestLoading(true);
-    const res = await makeRequest(requestBody);
-    console.log(res);
+    await sendRequest();
     setRequestLoading(false);
   }
 

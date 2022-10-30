@@ -1,11 +1,11 @@
-import KeyValueTableInput, { useKeyValueTableInputState, IKeyedTableValue } from "@/components/KeyValueTableInput";
+import KeyValueTableInput, { useKeyValueTableInputState } from "@/components/KeyValueTableInput";
 import { useRequestBody } from "@/hooks/useRequestBody";
 import { useEffect } from "react";
 import { nanoid } from "nanoid";
 
 export default function HeaderBuilder() {
-  const [requestBody, setRequestBody] = useRequestBody();
-  const { items, deleteItem, setItems, editItem, addItem } = useKeyValueTableInputState(
+  const [[requestBody, setRequestBody]] = useRequestBody();
+  const { items, deleteItem, editItem, addItem } = useKeyValueTableInputState(
     Object.keys(requestBody.headers).map((headerKey) => ({
       key: headerKey,
       id: nanoid(),

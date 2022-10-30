@@ -1,4 +1,4 @@
-import { useContext, createContext, PropsWithChildren, useState } from "react";
+import React, { useContext, createContext, PropsWithChildren, useState } from "react";
 
 export interface IPreferences {
   bodyBuilderSeperatorLocation: number;
@@ -12,9 +12,10 @@ const initialPreferencesState: IPreferences = {
   urlHistory: [],
 };
 
-const PreferencesContext = createContext<
-  [IPreferences, React.Dispatch<React.SetStateAction<IPreferences>>]
->([initialPreferencesState, () => {}]);
+const PreferencesContext = createContext<[IPreferences, React.Dispatch<React.SetStateAction<IPreferences>>]>([
+  initialPreferencesState,
+  () => {},
+]);
 
 export function useAppPreferences() {
   return useContext(PreferencesContext);
@@ -23,9 +24,5 @@ export function useAppPreferences() {
 export default function PreferencesProvider(props: PropsWithChildren) {
   const preferencesState = useState<IPreferences>(initialPreferencesState);
 
-  return (
-    <PreferencesContext.Provider value={preferencesState}>
-      {props.children}
-    </PreferencesContext.Provider>
-  );
+  return <PreferencesContext.Provider value={preferencesState}>{props.children}</PreferencesContext.Provider>;
 }

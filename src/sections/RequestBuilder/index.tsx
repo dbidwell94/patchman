@@ -1,8 +1,8 @@
 import { Box, styled, Paper, SvgIcon, Tab, Tabs } from "@mui/material";
 import MoveIcon from "@mui/icons-material/MoreHoriz";
 import BodyBuilder from "./BodyBuilder";
-import UrlBar from "./urlBar";
-import RequestResponse from "./requestResponse";
+import UrlBar from "./UrlBar";
+import RequestResponse from "./RequestResponse";
 import React, { useEffect, useRef, useState } from "react";
 import MuiLink from "@/components/MuiLink";
 import { useAppPreferences } from "@/hooks/usePreferences";
@@ -23,12 +23,11 @@ const SeparatorBar = styled(Paper)`
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: 0.125s ease-in-out opacity, 0.125s ease-in-out height;
+  transition: 0.125s ease-in-out opacity;
   overflow: hidden;
   cursor: ns-resize;
   &:hover {
     opacity: 1;
-    height: 1rem;
   }
 `;
 

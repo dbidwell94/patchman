@@ -19,7 +19,7 @@ import { nanoid } from "nanoid";
 
 const ParamsBuilderWrapper = styled(Box)`
   padding: 0.5rem 1rem;
-  overflow-y: scroll;
+  overflow-y: auto;
 `;
 
 const TableInput = styled(Input)`

@@ -6,7 +6,7 @@ import KeyValueTableInput, { IKeyedTableValue, useKeyValueTableInputState } from
 interface IParamsBuilderProps {}
 
 export default function ParamsBuilder(props: IParamsBuilderProps) {
-  const [requestBody, setRequestBody] = useRequestBody();
+  const [[requestBody, setRequestBody]] = useRequestBody();
 
   const { items, setItems, editItem, addItem, deleteItem } = useKeyValueTableInputState([]);
 

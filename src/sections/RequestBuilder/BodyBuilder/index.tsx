@@ -2,10 +2,10 @@ import { useAppPreferences } from "@/hooks/usePreferences";
 import { Box } from "@mui/material";
 import { useEffect } from "react";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
-import AuthBuilder from "./authBuilder";
-import HeaderBuilder from "./headerBuilder";
-import ParamsBuilder from "./paramsBuilder";
-import RequestBodyBuilder from "./requestBodyBuilder";
+import AuthBuilder from "./AuthBuilder";
+import HeaderBuilder from "./HeaderBuilder";
+import ParamsBuilder from "./ParamsBuilder";
+import RequestBodyBuilder from "./RequestBodyBuilder";
 
 interface IBodyBuilderProps {
   height: number;
@@ -26,7 +26,7 @@ export default function BodyBuilder(props: IBodyBuilderProps) {
   }, []);
 
   return (
-    <Box data-testid="bodyBuilder" height={`${props.height}%`}>
+    <Box data-testid="bodyBuilder" style={{ height: props.height + "%" }}>
       <Routes>
         <Route path="params" element={<ParamsBuilder />} />
         <Route path="body" element={<RequestBodyBuilder />} />
