@@ -3,8 +3,9 @@ import Sidebar from "@/components/Sidebar";
 import PageSections from "@/sections";
 import RequestBodyProvider from "./hooks/useRequestBody";
 import PreferencesProvider from "./hooks/usePreferences";
-import "prismjs/themes/prism-dark.min.css";
 import ResponseBodyProvider from "@/hooks/useResponseBody";
+
+import "prismjs/themes/prism-dark.min.css";
 
 const AppWrapper = styled(Box)`
   width: 100%;

@@ -11,11 +11,10 @@ import {
   TableHead,
   TableRow,
   Tooltip,
-  Typography,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/DeleteOutline";
-import React, { useState } from "react";
 import { nanoid } from "nanoid";
+import { useState } from "preact/hooks";
 
 const ParamsBuilderWrapper = styled(Box)`
   padding: 0.5rem 1rem;
@@ -100,7 +99,7 @@ export default function KeyValueTableInput(props: ITableInputProps) {
                         name="key"
                         fullWidth
                         onChange={(evt) => {
-                          editItem({ ...item, key: evt.target.value });
+                          editItem({ ...item, key: evt?.currentTarget.value });
                         }}
                       />
                     )}
@@ -116,7 +115,7 @@ export default function KeyValueTableInput(props: ITableInputProps) {
                         disabled={readonly}
                         name="value"
                         onChange={(evt) => {
-                          editItem({ ...item, value: evt.target.value });
+                          editItem({ ...item, value: evt?.currentTarget.value });
                         }}
                       />
                     )}
@@ -155,7 +154,7 @@ export default function KeyValueTableInput(props: ITableInputProps) {
                     value={itemToAdd.key || ""}
                     onChange={(e) => {
                       setItemToAdd((prev) => {
-                        return { ...prev, key: e.target.value };
+                        return { ...prev, key: e?.currentTarget.value };
                       });
                     }}
                   />
@@ -167,7 +166,7 @@ export default function KeyValueTableInput(props: ITableInputProps) {
                     size={"small"}
                     onChange={(e) => {
                       setItemToAdd((prev) => {
-                        return { ...prev, value: e.target.value };
+                        return { ...prev, value: e?.currentTarget.value };
                       });
                     }}
                   />

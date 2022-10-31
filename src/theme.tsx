@@ -1,17 +1,11 @@
 import { ThemeOptions } from "@mui/material/styles/createTheme";
-import {
-  createTheme,
-  ThemeProvider,
-  CssBaseline,
-  GlobalStyles,
-  css,
-} from "@mui/material";
-import React from "react";
+import { createTheme, ThemeProvider, CssBaseline, GlobalStyles, css } from "@mui/material";
 import "@fontsource/ubuntu/300.css";
 import "@fontsource/ubuntu/400.css";
 import "@fontsource/ubuntu/500.css";
 import "@fontsource/ubuntu/700.css";
 import "@fontsource/ubuntu-mono";
+import { ComponentChildren } from "preact";
 
 const globalStyle = css`
   html {
@@ -65,7 +59,7 @@ export const theme = createTheme({
   shape: { borderRadius: 0 },
 });
 
-export default function GlobalThemeWrapper(props: React.PropsWithChildren) {
+export default function GlobalThemeWrapper(props: { children: ComponentChildren }) {
   return (
     <>
       <ThemeProvider theme={theme}>
