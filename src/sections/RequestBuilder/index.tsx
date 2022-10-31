@@ -7,27 +7,31 @@ import RequestResponse from "./RequestResponse";
 import MuiLink from "@/components/MuiLink";
 import { useAppPreferences } from "@/hooks/usePreferences";
 import HorizontalDivision from "@/components/HorizontalDivision";
+import { Resizable } from "react-resizable";
+import Split from "react-split";
 
 const RequestBuilderWrapper = styled(Box)`
   flex-direction: column;
   height: 100%;
   display: flex;
-`;
+  .split {
+    display: flex;
+    flex-direction: row;
+  }
 
-const SeparatorBar = styled(Paper)`
-  width: 100%;
-  height: 1rem;
-  position: absolute;
-  transform: translate(0%, -50%);
-  opacity: 0.25;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: 0.125s ease-in-out opacity;
-  overflow: hidden;
-  cursor: ns-resize;
-  &:hover {
-    opacity: 1;
+  .gutter {
+    background-color: ${({ theme }) => theme.palette.grey["900"]};
+    background-repeat: no-repeat;
+    background-position: 50%;
+    transition: 0.125s ease-in-out background-color;
+    &:hover {
+      background-color: ${({ theme }) => theme.palette.secondary.main};
+    }
+    cursor: ns-resize;
+  }
+
+  .gutter.gutter-horizontal {
+    cursor: col-resize;
   }
 `;
 
@@ -88,13 +92,10 @@ export default function RequestBuilder() {
         </Tabs>
       </HorizontalDivision>
       <Box flex="1" position="relative">
-        <BodyBuilder height={separator} />
-        <SeparatorBar elevation={24} onMouseDown={() => setDraggingSeparator(true)} ref={separatorRef}>
-          <SvgIcon>
-            <MoveIcon />
-          </SvgIcon>
-        </SeparatorBar>
-        <RequestResponse height={100 - separator} />
+        <Split direction="vertical" style={{ height: "100%" }} >
+          <BodyBuilder height={100} />
+          <RequestResponse height={100} />
+        </Split>
       </Box>
     </RequestBuilderWrapper>
   );

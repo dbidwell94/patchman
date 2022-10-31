@@ -1,11 +1,9 @@
 import { useCodeMirror } from "@uiw/react-codemirror";
-import { javascript } from "@codemirror/lang-javascript";
 import { json } from "@codemirror/lang-json";
 import { html } from "@codemirror/lang-html";
 import { xml } from "@codemirror/lang-xml";
 import { useRef, useEffect } from "preact/hooks";
 import { githubDark } from "@uiw/codemirror-theme-github";
-import { basicSetup } from "@uiw/codemirror-extensions-basic-setup";
 
 interface IEditorProps {
   value: string;
@@ -13,7 +11,7 @@ interface IEditorProps {
   readOnly?: boolean;
 }
 
-const extensions = [json(), html()];
+const extensions = [json(), html(), xml()];
 
 export default function Editor(props: IEditorProps) {
   const divRef = useRef<HTMLDivElement>(null);
@@ -25,6 +23,7 @@ export default function Editor(props: IEditorProps) {
     container: divRef.current,
     readOnly: props.readOnly,
     theme: githubDark,
+    draggable: true,
   });
 
   useEffect(() => {
