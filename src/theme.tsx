@@ -8,6 +8,11 @@ import "@fontsource/ubuntu-mono";
 import { ComponentChildren } from "preact";
 
 const globalStyle = css`
+  .CodeMirror-cursor {
+    border-left: thin solid black;
+    border-right: none;
+    width: 1rem;
+  }
   html {
     border: none;
     width: 100vw;
