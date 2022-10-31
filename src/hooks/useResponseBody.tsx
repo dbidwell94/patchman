@@ -1,4 +1,5 @@
-import React, { createContext, PropsWithChildren, useContext, useState } from "react";
+import { createContext, ComponentChildren } from "preact";
+import { useState, useContext, StateUpdater } from "preact/hooks";
 
 type IResponseContextManagedState = IResponse | null;
 
@@ -9,7 +10,7 @@ export interface IResponse {
   url: string;
 }
 
-const ResponseContext = createContext<[IResponseContextManagedState, React.Dispatch<IResponseContextManagedState>]>([
+const ResponseContext = createContext<[IResponseContextManagedState, StateUpdater<IResponseContextManagedState>]>([
   null,
   () => {},
 ]);
@@ -18,7 +19,7 @@ export function useResponseBody() {
   return useContext(ResponseContext);
 }
 
-export default function ResponseBodyProvider(props: PropsWithChildren) {
+export default function ResponseBodyProvider(props: { children: ComponentChildren }) {
   const responseState = useState<IResponseContextManagedState>(null);
 
   return <ResponseContext.Provider value={responseState}>{props.children}</ResponseContext.Provider>;
