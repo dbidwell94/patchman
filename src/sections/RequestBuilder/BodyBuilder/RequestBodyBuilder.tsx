@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useRequestBody } from "@/hooks/useRequestBody";
-import Editor from "@/components/CodeMirror";
+import Editor from "@/components/Editor";
 
 export default function RequestBodyBuilder() {
   const [[requestBody, setRequestBody]] = useRequestBody();
