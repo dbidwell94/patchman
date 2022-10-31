@@ -1,9 +1,9 @@
+import { useState, useRef, useEffect } from "preact/hooks";
 import { Box, styled, Paper, SvgIcon, Tab, Tabs } from "@mui/material";
 import MoveIcon from "@mui/icons-material/MoreHoriz";
 import BodyBuilder from "./BodyBuilder";
 import UrlBar from "./UrlBar";
 import RequestResponse from "./RequestResponse";
-import React, { useEffect, useRef, useState } from "react";
 import MuiLink from "@/components/MuiLink";
 import { useAppPreferences } from "@/hooks/usePreferences";
 import HorizontalDivision from "@/components/HorizontalDivision";
@@ -50,7 +50,7 @@ export default function RequestBuilder() {
     setPreferences((prev) => ({ ...prev, requestBuilderTabIndex: tabIndex }));
   }, [tabIndex]);
 
-  function handleMouseMove(evt: React.MouseEvent<HTMLDivElement>): void {
+  function handleMouseMove(evt: any): void {
     if (!draggingSeparator || !separatorRef.current) return;
     evt.preventDefault();
 

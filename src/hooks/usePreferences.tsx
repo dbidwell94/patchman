@@ -1,4 +1,5 @@
-import React, { useContext, createContext, PropsWithChildren, useState } from "react";
+import { createContext, ComponentChildren } from "preact";
+import { useContext, useState, StateUpdater } from "preact/hooks";
 
 export interface IPreferences {
   bodyBuilderSeperatorLocation: number;
@@ -12,7 +13,7 @@ const initialPreferencesState: IPreferences = {
   urlHistory: [],
 };
 
-const PreferencesContext = createContext<[IPreferences, React.Dispatch<React.SetStateAction<IPreferences>>]>([
+const PreferencesContext = createContext<[IPreferences, StateUpdater<IPreferences>]>([
   initialPreferencesState,
   () => {},
 ]);
@@ -21,7 +22,7 @@ export function useAppPreferences() {
   return useContext(PreferencesContext);
 }
 
-export default function PreferencesProvider(props: PropsWithChildren) {
+export default function PreferencesProvider(props: { children: ComponentChildren }) {
   const preferencesState = useState<IPreferences>(initialPreferencesState);
 
   return <PreferencesContext.Provider value={preferencesState}>{props.children}</PreferencesContext.Provider>;

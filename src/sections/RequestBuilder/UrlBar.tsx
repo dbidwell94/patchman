@@ -1,9 +1,10 @@
 import { Box, Button, MenuItem, Popper, Select, styled, TextField, Typography } from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
 import * as yup from "yup";
 import SendIcon from "@mui/icons-material/Send";
 import SaveIcon from "@mui/icons-material/Save";
 import { HttpMethod, useRequestBody } from "@/hooks/useRequestBody";
+import { useState, useEffect, useRef } from "preact/hooks";
+import { ChangeEvent } from "preact/compat";
 
 const urlBarSchema = yup.object().shape({
   method: yup.string().required().oneOf(Object.values(HttpMethod)),
@@ -51,16 +52,16 @@ export default function UrlBar() {
   const urlInputRef = useRef(null);
   const methodInputRef = useRef(null);
 
-  async function onSubmit(evt: React.MouseEvent<HTMLButtonElement>) {
+  async function onSubmit(evt: any) {
     evt.preventDefault();
     setRequestLoading(true);
     await sendRequest();
     setRequestLoading(false);
   }
 
-  function handleChange(evt: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) {
+  function handleChange(evt: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) {
     evt.preventDefault();
-    const { name, value } = evt.target;
+    const { name, value } = evt?.currentTarget;
 
     const newFormValues = { ...formValues, [name]: value };
     setFormValues(newFormValues);

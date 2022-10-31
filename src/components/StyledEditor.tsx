@@ -1,6 +1,6 @@
 import { styled } from "@mui/material";
 import Editor from "react-simple-code-editor";
-import React from "react";
+import { ComponentProps } from "preact/compat";
 
 const WrappedStyledEditor = styled(Editor)`
   width: 100%;
@@ -12,7 +12,7 @@ const WrappedStyledEditor = styled(Editor)`
   }
 `;
 
-type EditorProps = React.ComponentProps<typeof Editor>;
+type EditorProps = Omit<ComponentProps<typeof Editor>, "ref">;
 
 export default function StyledEditor(props: EditorProps) {
   return (

@@ -1,11 +1,11 @@
 import { defineConfig, UserConfigExport } from "vite";
-import react from "@vitejs/plugin-react";
+import preact from '@preact/preset-vite';
 import tsconfigPaths from "vite-tsconfig-paths";
 
 export const config: UserConfigExport = {
-  plugins: [react(), tsconfigPaths()],
+  plugins: [preact(), tsconfigPaths()],
 
-  // Vite optons tailored for Tauri development and only applied in `tauri dev` or `tauri build`
+  // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
   // prevent vite from obscuring rust errors
   clearScreen: false,
   // tauri expects a fixed port, fail if that port is not available
