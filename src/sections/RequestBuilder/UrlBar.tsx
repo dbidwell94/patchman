@@ -10,7 +10,7 @@ const urlBarSchema = yup.object().shape({
   method: yup.string().required().oneOf(Object.values(HttpMethod)),
   url: yup
     .string()
-    .matches(/^https?:\/\/(www\.)?\w+(\.\w+)*?\.\w+(\/.*)?$/, "Enter a correct URL")
+    .matches(/^https?:\/\/(www\.)?[\w-]+(\.[\w+-]+)*?\.\w+(\/.*)?$/, "Enter a correct URL")
     .required("Please enter a URL"),
 });
 
