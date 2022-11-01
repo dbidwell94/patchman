@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRequestBody } from "@/hooks/useRequestBody";
-import Editor from "@/components/Editor";
+import Editor, { SupportedLanguage } from "@/components/Editor";
 
 export default function RequestBodyBuilder() {
   const [[requestBody, setRequestBody]] = useRequestBody();
@@ -10,5 +10,5 @@ export default function RequestBodyBuilder() {
     setRequestBody((prev) => ({ ...prev, body }));
   }, [body]);
 
-  return <Editor value={body} onChange={(code) => setBody(code)} />;
+  return <Editor value={body} onChange={(code) => setBody(code)} language={SupportedLanguage.JSON} />;
 }

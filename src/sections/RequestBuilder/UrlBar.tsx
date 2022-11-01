@@ -61,7 +61,7 @@ export default function UrlBar() {
 
   function handleChange(evt: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) {
     evt.preventDefault();
-    const { name, value } = evt?.currentTarget;
+    const { name, value } = evt?.currentTarget || evt?.target;
 
     const newFormValues = { ...formValues, [name]: value };
     setFormValues(newFormValues);
@@ -86,7 +86,7 @@ export default function UrlBar() {
         size="small"
         sx={{ width: "7rem" }}
         value={formValues.method}
-        onChange={(e) => handleChange(e as React.ChangeEvent<HTMLInputElement>)}
+        onChange={(e: any) => handleChange(e)}
         name="method"
         error={Boolean(formErrors.method)}
         ref={methodInputRef}
