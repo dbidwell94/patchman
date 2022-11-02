@@ -10,10 +10,11 @@ import { xml } from "@codemirror/lang-xml";
 import { html } from "@codemirror/lang-html";
 
 const font16 = EditorView.theme({
-  "&": { fontSize: "14pt", fontFamily: "Ubuntu", minHeight: "100%" },
+  "&": { fontSize: "14pt", fontFamily: "Ubuntu", minHeight: "100%", width: "100%" },
   ".cm-content": {
     fontFamily: "Ubuntu Mono",
     minHeight: "100%",
+    width: "100%",
   },
 });
 
@@ -83,5 +84,5 @@ export default function Editor(props: IEditorProps) {
     };
   }, [rootElement.current, language, props.stateMemo]);
 
-  return <div style={{ height: "100%" }} ref={rootElement} />;
+  return <div style={{ height: "100%", width: "100%" }} ref={rootElement} />;
 }

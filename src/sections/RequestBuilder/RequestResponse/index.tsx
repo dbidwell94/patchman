@@ -39,7 +39,7 @@ export default function Index(props: IRequestResponseProps) {
           <Tab label="Headers" />
         </Tabs>
       </HorizontalDivision>
-      <div style={{ overflowY: "scroll", width: "100%", height: "calc(100% - 3rem)" }}>{getTabIndex()}</div>
+      <div style={{ overflowY: "auto", width: "100%", height: "calc(100% - 3rem)" }}>{getTabIndex()}</div>
     </RequestResponseWrapper>
   );
 }
