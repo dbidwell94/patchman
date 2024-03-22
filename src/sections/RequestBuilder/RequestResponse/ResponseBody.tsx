@@ -1,6 +1,6 @@
 import { useResponseBody } from "@/hooks/useResponseBody";
 import Editor, { SupportedLanguage } from "@/components/Editor";
-import { useEffect, useMemo, useState } from "preact/hooks";
+import { useEffect, useMemo, useState } from "react";
 
 export default function ResponseBody() {
   const [body, _] = useResponseBody();

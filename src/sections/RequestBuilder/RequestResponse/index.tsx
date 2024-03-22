@@ -1,6 +1,6 @@
 import { styled, Box, Tab, Tabs } from "@mui/material";
 import HorizontalDivision from "@/components/HorizontalDivision";
-import React, { useMemo, useRef, useState } from "react";
+import { useState } from "react";
 import ResponseBody from "@/sections/RequestBuilder/RequestResponse/ResponseBody";
 import ResponseHeaders from "@/sections/RequestBuilder/RequestResponse/ResponseHeaders";
 import { useResponseBody } from "@/hooks/useResponseBody";

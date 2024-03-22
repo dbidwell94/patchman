@@ -3,7 +3,7 @@ import { json } from "@codemirror/lang-json";
 import { defaultKeymap, indentWithTab } from "@codemirror/commands";
 import { EditorView, keymap, lineNumbers, highlightActiveLine, dropCursor } from "@codemirror/view";
 import { closeBrackets } from "@codemirror/autocomplete";
-import { useEffect, useRef } from "preact/hooks";
+import { useEffect, useRef } from "react";
 import { foldGutter, syntaxHighlighting, bracketMatching } from "@codemirror/language";
 import { EditorState, Extension } from "@codemirror/state";
 import { xml } from "@codemirror/lang-xml";

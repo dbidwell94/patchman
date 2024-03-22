@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { nanoid } from "nanoid";
 import { useRequestBody } from "@/hooks/useRequestBody";
 import KeyValueTableInput, { IKeyedTableValue, useKeyValueTableInputState } from "@/components/KeyValueTableInput";

@@ -1,9 +1,9 @@
 import { defineConfig, UserConfigExport } from "vite";
-import preact from '@preact/preset-vite';
+import react from "@vitejs/plugin-react";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 export const config: UserConfigExport = {
-  plugins: [preact(), tsconfigPaths()],
+  plugins: [react(), tsconfigPaths()],
 
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
   // prevent vite from obscuring rust errors

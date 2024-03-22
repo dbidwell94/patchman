@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, afterEach } from "vitest";
+import { describe, it, expect, afterEach } from "vitest";
 import { render, cleanup } from "@testing-library/react";
 import ParamsBuilder from "../ParamsBuilder";
 import GlobalThemeWrapper from "@/theme";

@@ -1,8 +1,7 @@
 import { useResponseBody } from "@/hooks/useResponseBody";
 import { invoke } from "@tauri-apps/api/tauri";
 import type { IResponse } from "@/hooks/useResponseBody";
-import { ComponentChildren, createContext } from "preact";
-import { Dispatch, StateUpdater, useContext, useState } from "preact/hooks";
+import { createContext, Dispatch, PropsWithChildren, SetStateAction, useContext, useState } from "react";
 
 export enum HttpMethod {
   Get = "GET",
@@ -21,7 +20,7 @@ export interface IRequestContext {
   body?: string;
 }
 
-type IRequestContextReturn = [IRequestContext, Dispatch<StateUpdater<IRequestContext>>];
+type IRequestContextReturn = [IRequestContext, Dispatch<SetStateAction<IRequestContext>>];
 
 const RequestBodyContext = createContext<IRequestContextReturn>([
   {
@@ -55,11 +54,7 @@ export function useRequestBody(): [IRequestContextReturn, () => Promise<void>] {
   return [[requestBody, setRequestBody], send];
 }
 
-interface IRequestBodyProviderProps {
-  children?: ComponentChildren;
-}
-
-export default function RequestBodyProvider(props: IRequestBodyProviderProps) {
+export default function RequestBodyProvider(props: PropsWithChildren) {
   const requestState = useState<IRequestContext>({
     url: "",
     params: {},
