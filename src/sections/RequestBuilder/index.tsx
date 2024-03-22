@@ -1,13 +1,11 @@
 import { useState, useRef, useEffect } from "preact/hooks";
-import { Box, styled, Paper, SvgIcon, Tab, Tabs } from "@mui/material";
-import MoveIcon from "@mui/icons-material/MoreHoriz";
+import { Box, styled, Tab, Tabs } from "@mui/material";
 import BodyBuilder from "./BodyBuilder";
 import UrlBar from "./UrlBar";
 import RequestResponse from "./RequestResponse";
 import MuiLink from "@/components/MuiLink";
 import { useAppPreferences } from "@/hooks/usePreferences";
 import HorizontalDivision from "@/components/HorizontalDivision";
-import { Resizable } from "react-resizable";
 import Split from "react-split";
 
 const RequestBuilderWrapper = styled(Box)`
@@ -88,11 +86,10 @@ export default function RequestBuilder() {
           <Tab label="Params" href="params" LinkComponent={MuiLink} />
           <Tab label="Body" href="body" LinkComponent={MuiLink} />
           <Tab label="Headers" href="headers" LinkComponent={MuiLink} />
-          <Tab label="Authorization" href="auth" LinkComponent={MuiLink} />
         </Tabs>
       </HorizontalDivision>
       <Box flex="1" position="relative">
-        <Split direction="vertical" style={{ height: "100%" }} >
+        <Split direction="vertical" style={{ height: "100%" }}>
           <BodyBuilder height={100} />
           <RequestResponse height={100} />
         </Split>

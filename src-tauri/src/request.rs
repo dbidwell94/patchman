@@ -3,11 +3,14 @@ use reqwest::Client;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::str::FromStr;
+use std::time::Instant;
 
 #[derive(Serialize, Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
 pub struct RequestError {
     status: Option<u16>,
     url: Option<String>,
+    request_time_ms: u64,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -29,11 +32,13 @@ pub struct Request {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
+#[serde(rename_all = "camelCase")]
 pub struct Response {
     status: u16,
     headers: HashMap<String, String>,
     body: Option<String>,
     url: String,
+    request_time_ms: u64,
 }
 
 #[tauri::command]
@@ -57,6 +62,9 @@ pub async fn make_request(req: Request) -> Result<Response, RequestError> {
         );
     }
 
+    // create a timer and start it
+    let timer = Instant::now();
+
     let response_result = match req.method {
         HttpMethod::GET => client.get(built_url),
         HttpMethod::PUT => client.put(built_url),
@@ -67,6 +75,9 @@ pub async fn make_request(req: Request) -> Result<Response, RequestError> {
     .headers(headers)
     .send()
     .await;
+
+    // stop the timer and get the elapsed time
+    let elapsed = timer.elapsed();
 
     let to_return: Result<Response, RequestError>;
 
@@ -87,12 +98,14 @@ pub async fn make_request(req: Request) -> Result<Response, RequestError> {
                 body: Some(response_body),
                 headers,
                 url,
+                request_time_ms: elapsed.as_millis() as u64,
             });
         }
         Err(err) => {
             to_return = Err(RequestError {
                 status: err.status().map(|s| s.as_u16()),
                 url: err.url().map(|u| u.to_string()),
+                request_time_ms: elapsed.as_millis() as u64,
             })
         }
     };
@@ -102,7 +115,7 @@ pub async fn make_request(req: Request) -> Result<Response, RequestError> {
 
 #[cfg(test)]
 mod tests {
-    use super::{make_request, HttpMethod, Request, Response};
+    use super::{make_request, HttpMethod, Request};
     use std::collections::HashMap;
 
     #[tokio::test]

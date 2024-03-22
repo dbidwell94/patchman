@@ -2,7 +2,6 @@ import { useAppPreferences } from "@/hooks/usePreferences";
 import { Box } from "@mui/material";
 import { useEffect } from "react";
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
-import AuthBuilder from "./AuthBuilder";
 import HeaderBuilder from "./HeaderBuilder";
 import ParamsBuilder from "./ParamsBuilder";
 import RequestBodyBuilder from "./RequestBodyBuilder";
@@ -31,7 +30,6 @@ export default function BodyBuilder(props: IBodyBuilderProps) {
         <Route path="params" element={<ParamsBuilder />} />
         <Route path="body" element={<RequestBodyBuilder />} />
         <Route path="headers" element={<HeaderBuilder />} />
-        <Route path="auth" element={<AuthBuilder />} />
         <Route path="" element={<Navigate to="params" />} />
       </Routes>
     </Box>

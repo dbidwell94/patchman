@@ -1,5 +1,5 @@
 import { createContext, ComponentChildren } from "preact";
-import { useState, useContext, StateUpdater } from "preact/hooks";
+import { useState, useContext, StateUpdater, Dispatch } from "preact/hooks";
 
 type IResponseContextManagedState = IResponse | null;
 
@@ -8,12 +8,12 @@ export interface IResponse {
   headers: Record<string, string>;
   body: string | null;
   url: string;
+  requestTimeMs: number;
 }
 
-const ResponseContext = createContext<[IResponseContextManagedState, StateUpdater<IResponseContextManagedState>]>([
-  null,
-  () => {},
-]);
+const ResponseContext = createContext<
+  [IResponseContextManagedState, Dispatch<StateUpdater<IResponseContextManagedState>>]
+>([null, () => {}]);
 
 export function useResponseBody() {
   return useContext(ResponseContext);

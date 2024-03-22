@@ -5,7 +5,7 @@
 
 mod request;
 
-use request::{make_request};
+use request::make_request;
 
 fn main() {
     tauri::Builder::default()

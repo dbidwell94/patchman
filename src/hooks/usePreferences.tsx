@@ -1,5 +1,5 @@
 import { createContext, ComponentChildren } from "preact";
-import { useContext, useState, StateUpdater } from "preact/hooks";
+import { useContext, useState, StateUpdater, Dispatch } from "preact/hooks";
 
 export interface IPreferences {
   bodyBuilderSeperatorLocation: number;
@@ -13,7 +13,7 @@ const initialPreferencesState: IPreferences = {
   urlHistory: [],
 };
 
-const PreferencesContext = createContext<[IPreferences, StateUpdater<IPreferences>]>([
+const PreferencesContext = createContext<[IPreferences, Dispatch<StateUpdater<IPreferences>>]>([
   initialPreferencesState,
   () => {},
 ]);
