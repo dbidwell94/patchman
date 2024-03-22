@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/DeleteOutline";
 import { nanoid } from "nanoid";
-import { useState } from "preact/hooks";
+import { useState } from "react";
 
 const ParamsBuilderWrapper = styled(Box)`
   padding: 0.5rem 1rem;

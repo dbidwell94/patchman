@@ -1,13 +1,13 @@
 {
   "build": {
-    "beforeDevCommand": "pnpm dev",
-    "beforeBuildCommand": "pnpm build",
+    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "npm run build",
     "devPath": "http://localhost:1420",
     "distDir": "../dist"
   },
   "package": {
     "productName": "Patchman",
-    "version": "0.0.15"
+    "version": "0.0.16-alpha.0"
   },
   "tauri": {
     "allowlist": {

@@ -5,7 +5,7 @@ import "@fontsource/ubuntu/400.css";
 import "@fontsource/ubuntu/500.css";
 import "@fontsource/ubuntu/700.css";
 import "@fontsource/ubuntu-mono";
-import { ComponentChildren } from "preact";
+import { PropsWithChildren } from "react";
 
 const globalStyle = css`
   html {
@@ -59,7 +59,7 @@ export const theme = createTheme({
   shape: { borderRadius: 0 },
 });
 
-export default function GlobalThemeWrapper(props: { children: ComponentChildren }) {
+export default function GlobalThemeWrapper(props: PropsWithChildren) {
   return (
     <>
       <ThemeProvider theme={theme}>

@@ -3,8 +3,7 @@ import * as yup from "yup";
 import SendIcon from "@mui/icons-material/Send";
 import SaveIcon from "@mui/icons-material/Save";
 import { HttpMethod, useRequestBody } from "@/hooks/useRequestBody";
-import { useState, useEffect, useRef } from "preact/hooks";
-import { ChangeEvent } from "preact/compat";
+import { useState, useEffect, useRef, ChangeEvent } from "react";
 
 const urlBarSchema = yup.object().shape({
   method: yup.string().required().oneOf(Object.values(HttpMethod)),

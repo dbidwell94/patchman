@@ -2,7 +2,7 @@ import { Box, styled, Tab, Tabs } from "@mui/material";
 import Network from "@mui/icons-material/Link";
 import Settings from "@mui/icons-material/Settings";
 import MuiLink from "@/components/MuiLink";
-import { useState } from "preact/hooks";
+import { useState } from "react";
 
 const SidebarWrapper = styled(Box)`
   min-height: 100%;
