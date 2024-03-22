@@ -1,3 +1,7 @@
+## 0.0.16-1
+
+- Update semver to use numeric values only
+
 ## 0.0.16-alpha.0
 
 - Update dependencies
