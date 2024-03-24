@@ -45,15 +45,6 @@ pub struct Response {
 pub async fn make_request(req: Request) -> Result<Response, RequestError> {
     let client = Client::new();
 
-    let mut built_url = req.url;
-    for (index, (key, value)) in req.params.iter().enumerate() {
-        if index == 0 {
-            built_url += "?";
-            built_url += &format!("{}={}", key, value);
-            continue;
-        }
-        built_url += &format!("&{}={}", key, value);
-    }
     let mut headers: HeaderMap = Default::default();
     for (key, value) in req.headers {
         headers.insert(
@@ -66,13 +57,14 @@ pub async fn make_request(req: Request) -> Result<Response, RequestError> {
     let timer = Instant::now();
 
     let response_result = match req.method {
-        HttpMethod::GET => client.get(built_url),
-        HttpMethod::PUT => client.put(built_url),
-        HttpMethod::DELETE => client.delete(built_url),
-        HttpMethod::POST => client.post(built_url),
-        HttpMethod::PATCH => client.patch(built_url),
+        HttpMethod::GET => client.get(req.url),
+        HttpMethod::PUT => client.put(req.url),
+        HttpMethod::DELETE => client.delete(req.url),
+        HttpMethod::POST => client.post(req.url),
+        HttpMethod::PATCH => client.patch(req.url),
     }
     .headers(headers)
+    .query(&req.params)
     .send()
     .await;
 
