@@ -2525,7 +2525,7 @@ dependencies = [
 
 [[package]]
 name = "patchman"
-version = "0.0.16-1"
+version = "0.0.16-2"
 dependencies = [
  "reqwest",
  "serde",
