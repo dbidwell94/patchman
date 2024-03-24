@@ -153,8 +153,9 @@ export default function KeyValueTableInput(props: ITableInputProps) {
                     size={"small"}
                     value={itemToAdd.key || ""}
                     onChange={(e) => {
+                      console.log(e);
                       setItemToAdd((prev) => {
-                        return { ...prev, key: e?.currentTarget.value };
+                        return { ...prev, key: e?.target.value };
                       });
                     }}
                   />
@@ -166,7 +167,7 @@ export default function KeyValueTableInput(props: ITableInputProps) {
                     size={"small"}
                     onChange={(e) => {
                       setItemToAdd((prev) => {
-                        return { ...prev, value: e?.currentTarget.value };
+                        return { ...prev, value: e?.target.value };
                       });
                     }}
                   />
