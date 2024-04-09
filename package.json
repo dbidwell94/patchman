@@ -1,7 +1,7 @@
 {
   "name": "patchman",
   "private": true,
-  "version": "0.0.16-2",
+  "version": "0.0.16",
   "license": "MIT",
   "type": "module",
   "prettier": {
