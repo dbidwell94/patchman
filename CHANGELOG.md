@@ -1,3 +1,8 @@
+## 0.0.16
+
+- Update dependencies
+- Fix request time to calculate correct time from response
+
 ## 0.0.16-2
 
 - Fixed crash which happened when adding new params into the params input table

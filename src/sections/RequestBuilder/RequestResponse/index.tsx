@@ -1,6 +1,6 @@
-import { styled, Box, Tab, Tabs } from "@mui/material";
+import { styled, Box, Tab, Tabs, Typography } from "@mui/material";
 import HorizontalDivision from "@/components/HorizontalDivision";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import ResponseBody from "@/sections/RequestBuilder/RequestResponse/ResponseBody";
 import ResponseHeaders from "@/sections/RequestBuilder/RequestResponse/ResponseHeaders";
 import { useResponseBody } from "@/hooks/useResponseBody";
@@ -26,6 +26,17 @@ export default function Index(props: IRequestResponseProps) {
 
   const [body, _] = useResponseBody();
 
+  const responseTimeText = useMemo(() => {
+    if (!body?.requestTimeMs) return "";
+
+    // check if the response time is less than 1 second
+    if (body.requestTimeMs < 1000) {
+      return `${body.requestTimeMs}ms`;
+    }
+    // else return seconds
+    return `${body.requestTimeMs / 1000}s`;
+  }, [body?.requestTimeMs]);
+
   function getTabIndex() {
     switch (tabIndex) {
       case 0: {
@@ -50,7 +61,11 @@ export default function Index(props: IRequestResponseProps) {
             <Tab label="Body" />
             <Tab label="Headers" />
           </Tabs>
-          {body?.requestTimeMs && <p>Response Time: {body.requestTimeMs / 100}s</p>}
+          {body?.requestTimeMs && (
+            <Typography>
+              Response Time: {responseTimeText}
+            </Typography>
+          )}
         </TabWrapper>
       </HorizontalDivision>
       <div style={{ overflowY: "auto", width: "100%", height: "calc(100% - 3rem)" }}>{getTabIndex()}</div>
