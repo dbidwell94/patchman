@@ -13,7 +13,7 @@ optdepends=()
 
 changelog='CHANGELOG.md'
 
-source=("https://github.com/dbidwell94/patchman/archive/refs/tags/patchman-v$pkgver.deb")
+source=("https://github.com/dbidwell94/patchman/releases/latest/download/patchman_${pkgver}_amd64.deb")
 
 sha256sums=('SKIP')
 
