@@ -1,14 +1,14 @@
 # Maintainer: Devin Bidwell <dbidwell94@biddydev.com>
 pkgname='patchman-bin'
-pkgver='0.0.16' # Upstream version
-pkgrel=1 # PKGBUILD version
+pkgver='0.0.16'
+pkgrel=1
 pkgdesc="An open source API tester built on Tauri and React"
 arch=("x86_64")
 url="https://github.com/dbidwell94/patchman"
 license=('MIT')
 provides=("patchman")
 
-depends=("webkit2gtk" "openssl")
+depends=("webkit2gtk" "openssl-1.1")
 optdepends=()
 
 changelog='CHANGELOG.md'
