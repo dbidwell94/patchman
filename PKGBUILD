@@ -1,6 +1,6 @@
 # Maintainer: Devin Bidwell <dbidwell94@biddydev.com>
 pkgname='patchman-bin'
-pkgver='0.0.16'
+pkgver='0.0.17'
 pkgrel=1
 pkgdesc="An open source API tester built on Tauri and React"
 arch=("x86_64")
