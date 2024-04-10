@@ -1,3 +1,8 @@
+## 0.0.17
+
+- Changed default editor font size from 14pt to 12pt for better readability
+- Added visual feedback when request is processing (disable send button and display loading spinner)
+
 ## 0.0.16
 
 - Update dependencies
