@@ -1,9 +1,9 @@
-import { Box, Button, MenuItem, Popper, Select, styled, TextField, Typography } from "@mui/material";
+import { Box, Button, MenuItem, Popper, Select, styled, TextField, Typography, CircularProgress } from "@mui/material";
 import * as yup from "yup";
 import SendIcon from "@mui/icons-material/Send";
 import SaveIcon from "@mui/icons-material/Save";
 import { HttpMethod, useRequestBody } from "@/hooks/useRequestBody";
-import { useState, useEffect, useRef, ChangeEvent } from "react";
+import { useState, useEffect, useRef, ChangeEvent, useMemo } from "react";
 
 const urlBarSchema = yup.object().shape({
   method: yup.string().required().oneOf(Object.values(HttpMethod)),
@@ -43,10 +43,16 @@ export default function UrlBar() {
     }));
   }, [formValues.method, formValues.url]);
 
-  const submitDisabled =
-    Object.values(formErrors).every((val) => {
-      return !Boolean(val);
-    }) || requestLoading;
+  const submitDisabled = useMemo(() => {
+    if (requestLoading) return true;
+
+    try {
+      urlBarSchema.validateSync(formValues);
+      return false;
+    } catch (_) {
+      return true;
+    }
+  }, [requestLoading, formErrors]);
 
   const urlInputRef = useRef(null);
   const methodInputRef = useRef(null);
@@ -116,12 +122,13 @@ export default function UrlBar() {
       <Box sx={{ height: "100%", margin: 0, padding: 0 }}>
         <Button
           variant="contained"
-          disabled={!submitDisabled}
-          sx={{ height: "100%", marginLeft: "1rem" }}
+          disabled={submitDisabled}
+          sx={{ height: "100%", marginLeft: "1rem", position: "relative" }}
           endIcon={<SendIcon />}
           onClick={onSubmit}
         >
           Send
+          {requestLoading && <CircularProgress size={30} sx={(theme) => ({ position: "absolute" })} />}
         </Button>
         <Button variant="outlined" sx={{ height: "100%" }} endIcon={<SaveIcon />}>
           Save

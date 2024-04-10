@@ -1,13 +1,14 @@
 import App from "./App";
 import GlobalThemeWrapper from "./theme";
 import { BrowserRouter as Router } from "react-router-dom";
-import { render } from "react-dom";
+import { createRoot } from "react-dom/client";
 
-render(
+const root = createRoot(document.querySelector("#root")!);
+
+root.render(
   <Router>
     <GlobalThemeWrapper>
       <App />
     </GlobalThemeWrapper>
-  </Router>,
-  document.body
+  </Router>
 );
