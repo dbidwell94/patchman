@@ -36,7 +36,7 @@
     "@fontsource/ubuntu-mono": "^4.5.11",
     "@mui/icons-material": "^5.10.9",
     "@mui/material": "^5.10.10",
-    "@tauri-apps/api": "^1.5.3",
+    "@tauri-apps/api": "^1.5.5",
     "@uiw/codemirror-extensions-basic-setup": "^4.12.4",
     "@uiw/codemirror-theme-androidstudio": "^4.12.4",
     "@uiw/codemirror-theme-github": "^4.12.4",
@@ -55,7 +55,7 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^1.5.11",
+    "@tauri-apps/cli": "^1.5.14",
     "@testing-library/react": "^13.4.0",
     "@types/node": "^18.11.4",
     "@types/prismjs": "^1.26.0",

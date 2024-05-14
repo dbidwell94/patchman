@@ -1,13 +1,13 @@
 import { PropsWithChildren, createContext, useState, useContext, Dispatch, SetStateAction } from "react";
 
 export interface IPreferences {
-  bodyBuilderSeperatorLocation: number;
+  bodyBuilderSeparatorLocation: number;
   requestBuilderTabIndex: number;
   urlHistory: string[];
 }
 
 const initialPreferencesState: IPreferences = {
-  bodyBuilderSeperatorLocation: 25,
+  bodyBuilderSeparatorLocation: 25,
   requestBuilderTabIndex: 0,
   urlHistory: [],
 };

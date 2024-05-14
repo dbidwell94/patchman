@@ -35,7 +35,7 @@ const RequestBuilderWrapper = styled(Box)`
 
 export default function RequestBuilder() {
   const [preferences, setPreferences] = useAppPreferences();
-  const [separator, setSeparator] = useState(preferences.bodyBuilderSeperatorLocation);
+  const [separator, setSeparator] = useState(preferences.bodyBuilderSeparatorLocation);
   const [draggingSeparator, setDraggingSeparator] = useState(false);
   const [tabIndex, setTabIndex] = useState(preferences.requestBuilderTabIndex);
 
@@ -44,7 +44,7 @@ export default function RequestBuilder() {
   useEffect(() => {
     setPreferences((prev) => ({
       ...prev,
-      bodyBuilderSeperatorLocation: separator,
+      bodyBuilderSeparatorLocation: separator,
     }));
   }, [separator]);
 
