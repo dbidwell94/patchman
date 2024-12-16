@@ -1,5 +1,5 @@
 import { useResponseBody } from "@/hooks/useResponseBody";
-import { invoke } from "@tauri-apps/api/tauri";
+import { invoke } from "@tauri-apps/api/core";
 import type { IResponse } from "@/hooks/useResponseBody";
 import { createContext, Dispatch, PropsWithChildren, SetStateAction, useContext, useState } from "react";
 
