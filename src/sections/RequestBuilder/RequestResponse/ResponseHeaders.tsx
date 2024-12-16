@@ -1,12 +1,12 @@
-import KeyValueTableInput, { IKeyedTableValue } from "@/components/KeyValueTableInput";
+import KeyValueTableInput, { KeyedTableValue } from "@/components/KeyValueTableInput";
 import { useResponseBody } from "@/hooks/useResponseBody";
 import { useMemo } from "react";
 import { nanoid } from "nanoid";
 
 export default function ResponseHeaders() {
   const [body, _] = useResponseBody();
-  const headers = useMemo<IKeyedTableValue[]>(() => {
-    const toReturn: IKeyedTableValue[] = [];
+  const headers = useMemo<KeyedTableValue[]>(() => {
+    const toReturn: KeyedTableValue[] = [];
     if (!body || !body.headers) return toReturn;
 
     Object.keys(body.headers).forEach((headerKey) => {

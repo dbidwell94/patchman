@@ -1,8 +1,8 @@
 import { createContext, useState, useContext, SetStateAction, Dispatch, PropsWithChildren } from "react";
 
-type IResponseContextManagedState = IResponse | null;
+type ResponseContextManagedState = Response | null;
 
-export interface IResponse {
+export interface Response {
   status: number;
   headers: Record<string, string>;
   body: string | null;
@@ -11,7 +11,7 @@ export interface IResponse {
 }
 
 const ResponseContext = createContext<
-  [IResponseContextManagedState, Dispatch<SetStateAction<IResponseContextManagedState>>]
+  [ResponseContextManagedState, Dispatch<SetStateAction<ResponseContextManagedState>>]
 >([null, () => {}]);
 
 export function useResponseBody() {
@@ -19,7 +19,7 @@ export function useResponseBody() {
 }
 
 export default function ResponseBodyProvider(props: PropsWithChildren) {
-  const responseState = useState<IResponseContextManagedState>(null);
+  const responseState = useState<ResponseContextManagedState>(null);
 
   return <ResponseContext.Provider value={responseState}>{props.children}</ResponseContext.Provider>;
 }

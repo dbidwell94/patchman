@@ -1,6 +1,6 @@
 import { useResponseBody } from "@/hooks/useResponseBody";
 import { invoke } from "@tauri-apps/api/core";
-import type { IResponse } from "@/hooks/useResponseBody";
+import type { Response } from "@/hooks/useResponseBody";
 import { createContext, Dispatch, PropsWithChildren, SetStateAction, useContext, useState } from "react";
 
 export enum HttpMethod {
@@ -38,9 +38,9 @@ export function useRequestBody(): [IRequestContextReturn, () => Promise<void>] {
   const [requestBody, setRequestBody] = useContext(RequestBodyContext);
 
   async function send() {
-    let toReturn: IResponse | null = null;
+    let toReturn: Response | null = null;
     try {
-      toReturn = await invoke<IResponse>("make_request", { req: requestBody });
+      toReturn = await invoke<Response>("make_request", { req: requestBody });
     } catch (err: any) {
       if (err.status || err.url) {
         toReturn = { body: null, headers: {}, url: err.url || "", status: err.status || 500, requestTimeMs: 0 };

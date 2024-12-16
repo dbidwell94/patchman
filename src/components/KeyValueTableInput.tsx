@@ -27,27 +27,27 @@ const TableInput = styled(Input)`
   }
 `;
 
-interface ITableValue {
+interface TableValue {
   key: string;
   value: string;
 }
 
-export interface IKeyedTableValue extends ITableValue {
+export interface KeyedTableValue extends TableValue {
   id: string;
 }
 
 interface ITableInputProps {
-  items: IKeyedTableValue[];
-  onDelete: (item: IKeyedTableValue) => void;
-  onAdded: (item: IKeyedTableValue) => void;
-  editItem: (newItemValue: IKeyedTableValue) => void;
+  items: KeyedTableValue[];
+  onDelete: (item: KeyedTableValue) => void;
+  onAdded: (item: KeyedTableValue) => void;
+  editItem: (newItemValue: KeyedTableValue) => void;
   readonly?: boolean;
 }
 
-export function useKeyValueTableInputState(initialState: IKeyedTableValue[]) {
+export function useKeyValueTableInputState(initialState: KeyedTableValue[]) {
   const [items, setItems] = useState(initialState);
 
-  function editItem(item: IKeyedTableValue) {
+  function editItem(item: KeyedTableValue) {
     setItems((prev) => {
       return prev.map((i) => {
         if (i.id !== item.id) return i;
@@ -56,11 +56,11 @@ export function useKeyValueTableInputState(initialState: IKeyedTableValue[]) {
     });
   }
 
-  function addItem(item: IKeyedTableValue) {
+  function addItem(item: KeyedTableValue) {
     setItems((prev) => [...prev, item]);
   }
 
-  function deleteItem(item: IKeyedTableValue) {
+  function deleteItem(item: KeyedTableValue) {
     setItems((prev) => {
       return prev.filter((i) => i.id !== item.id);
     });
@@ -72,7 +72,7 @@ export function useKeyValueTableInputState(initialState: IKeyedTableValue[]) {
 export default function KeyValueTableInput(props: ITableInputProps) {
   const { items, onDelete, editItem, onAdded, readonly } = props;
 
-  const [itemToAdd, setItemToAdd] = useState<Partial<Omit<IKeyedTableValue, "id">>>({});
+  const [itemToAdd, setItemToAdd] = useState<Partial<Omit<KeyedTableValue, "id">>>({});
 
   return (
     <ParamsBuilderWrapper>

@@ -6,11 +6,11 @@ import HeaderBuilder from "./HeaderBuilder";
 import ParamsBuilder from "./ParamsBuilder";
 import RequestBodyBuilder from "./RequestBodyBuilder";
 
-interface IBodyBuilderProps {
+interface BodyBuilderProps {
   height: number;
 }
 
-export default function BodyBuilder(props: IBodyBuilderProps) {
+export default function BodyBuilder(props: BodyBuilderProps) {
   const [preferences, _] = useAppPreferences();
   const navigate = useNavigate();
 

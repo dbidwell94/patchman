@@ -86,7 +86,7 @@ export default function UrlBar() {
   }
 
   return (
-    <UrlBarWrapper component="form" data-testid="urlBar">
+    <UrlBarWrapper data-testid="urlBar" as="form">
       <Select
         size="small"
         sx={{ width: "7rem" }}
