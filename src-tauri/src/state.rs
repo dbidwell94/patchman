@@ -2,10 +2,7 @@ use crate::request::{Request, RequestError, Response};
 use chrono::{DateTime, Utc};
 use directories::ProjectDirs;
 use serde::{Deserialize, Serialize};
-use std::{
-    ops::{Deref, DerefMut},
-    sync::LazyLock,
-};
+use std::sync::LazyLock;
 
 static DIRS: LazyLock<ProjectDirs> = LazyLock::new(|| {
     ProjectDirs::from("com", "biddydev", "patchman")
