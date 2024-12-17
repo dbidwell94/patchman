@@ -8,7 +8,7 @@ import { useAppPreferences } from "@/hooks/usePreferences";
 import HorizontalDivision from "@/components/HorizontalDivision";
 import Split from "react-split";
 import { useTranslation } from "react-i18next";
-import WorkspaceEditor from "@/components/workspaceEditor";
+import WorkspaceEditor from "@/components/WorkspaceEditor";
 
 const RequestBuilderWrapper = styled(Box)`
   flex-direction: column;
@@ -44,7 +44,7 @@ export default function RequestBuilder() {
     <RequestBuilderWrapper data-testid="requestBuilder">
       <UrlBar />
 
-      <Split direction="horizontal" style={{ height: "100%", display: "flex" }}>
+      <Split direction="horizontal" style={{ height: "100%", display: "flex" }} sizes={[80, 20]}>
         <Box display="flex" flexDirection="column" flex="1">
           <HorizontalDivision>
             <Tabs indicatorColor="secondary" value={tabIndex} onChange={(_, num) => setTabIndex(num)}>

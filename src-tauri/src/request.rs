@@ -1,3 +1,4 @@
+use chrono::{DateTime, Utc};
 use reqwest::header::{HeaderMap, HeaderName, HeaderValue};
 use reqwest::Client;
 use serde::{Deserialize, Serialize};
@@ -126,8 +127,10 @@ pub async fn make_request(
         }
     };
 
+    let now = chrono::Utc::now();
+
     let mut state = state.write().await;
-    state.request_history.push((req, to_return.clone()));
+    state.request_history.push((req, now, to_return.clone()));
 
     to_return
 }
@@ -135,7 +138,7 @@ pub async fn make_request(
 #[tauri::command]
 pub async fn get_request_history(
     state: tauri::State<'_, MutableState<crate::state::State>>,
-) -> Result<Vec<(Request, Result<Response, RequestError>)>, ()> {
+) -> Result<Vec<(Request, DateTime<Utc>, Result<Response, RequestError>)>, ()> {
     let state = state.read().await;
     Ok(state.request_history.clone())
 }

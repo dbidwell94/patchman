@@ -6,7 +6,7 @@ import Computer from "@mui/icons-material/Computer";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 
-enum WorkspaceTab {
+export enum WorkspaceTab {
   Collections,
   Environment,
   SavedRequests,
@@ -17,9 +17,12 @@ const BoxWrapper = styled(Box)`
   border-right: 1px solid ${({ theme }) => theme.palette.divider};
 `;
 
-export default function WorkspaceSidebar() {
-  const [currentTab, setCurrentTab] = useState(WorkspaceTab.Collections);
+type WorkspaceSidebarProps = {
+  currentTab: WorkspaceTab;
+  setCurrentTab: (tab: WorkspaceTab) => void;
+};
 
+export default function WorkspaceSidebar({ currentTab, setCurrentTab }: WorkspaceSidebarProps) {
   const [t] = useTranslation();
   return (
     <BoxWrapper>
