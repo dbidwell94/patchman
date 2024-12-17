@@ -21,20 +21,19 @@ export default function ResponseBody() {
   }, [value]);
 
   const contentType = useMemo<SupportedLanguage>(() => {
-    if (!body?.headers) return SupportedLanguage.None;
-    const contentHeader = body.headers["content-type"] || body.headers["Content-Type"];
-    if (!contentHeader) return SupportedLanguage.None;
+    const type = body?.headers?.["content-type"] || body?.headers?.["Content-Type"];
+    if (!type) return SupportedLanguage.None;
 
-    if (contentHeader.includes("json")) {
+    if (type.includes("json")) {
       return SupportedLanguage.JSON;
-    } else if (contentHeader.includes("xml")) {
+    } else if (type.includes("xml")) {
       return SupportedLanguage.XML;
-    } else if (contentHeader.includes("html")) {
+    } else if (type.includes("html")) {
       return SupportedLanguage.HTML;
     } else {
       return SupportedLanguage.None;
     }
-  }, [body?.headers]);
+  }, [body?.headers?.["content-type"], body?.headers?.["Content-Type"]]);
 
   return <Editor value={value} onChange={() => {}} readOnly language={contentType} stateMemo={forceRefresh} />;
 }

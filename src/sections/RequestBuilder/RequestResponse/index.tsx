@@ -5,7 +5,7 @@ import ResponseBody from "@/sections/RequestBuilder/RequestResponse/ResponseBody
 import ResponseHeaders from "@/sections/RequestBuilder/RequestResponse/ResponseHeaders";
 import { useResponseBody } from "@/hooks/useResponseBody";
 
-interface IRequestResponseProps {
+interface RequestResponseProps {
   height: number;
 }
 
@@ -21,7 +21,7 @@ const TabWrapper = styled(Box)`
   height: 100%;
 `;
 
-export default function Index(props: IRequestResponseProps) {
+export default function Index(props: RequestResponseProps) {
   const [tabIndex, setTabIndex] = useState(0);
 
   const [body, _] = useResponseBody();
