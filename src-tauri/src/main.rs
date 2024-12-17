@@ -4,10 +4,16 @@
 )]
 
 mod request;
+mod state;
 
-use request::make_request;
+use std::sync::Arc;
+use tauri::async_runtime::RwLock;
+
+pub type MutableState<T> = Arc<RwLock<T>>;
 
 fn main() {
+    let state: MutableState<state::State> = Default::default();
+
     tauri::Builder::default()
         .plugin(tauri_plugin_global_shortcut::Builder::new().build())
         .plugin(tauri_plugin_shell::init())
@@ -18,7 +24,11 @@ fn main() {
         .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_clipboard_manager::init())
-        .invoke_handler(tauri::generate_handler![make_request])
+        .manage(state)
+        .invoke_handler(tauri::generate_handler![
+            request::make_request,
+            request::get_request_history
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
