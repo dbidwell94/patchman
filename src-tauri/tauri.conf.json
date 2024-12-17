@@ -35,7 +35,7 @@
   },
   "productName": "Patchman",
   "mainBinaryName": "Patchman",
-  "version": "0.0.17",
+  "version": "0.1.0",
   "identifier": "com.biddydev.patchman",
   "plugins": {},
   "app": {
