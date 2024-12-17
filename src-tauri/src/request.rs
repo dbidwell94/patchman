@@ -132,6 +132,13 @@ pub async fn make_request(
     let mut state = state.write().await;
     state.request_history.push((req, now, to_return.clone()));
 
+    match state.save_to_disk() {
+        Ok(_) => {}
+        Err(e) => {
+            eprintln!("Error saving state to disk: {:?}", e);
+        }
+    }
+
     to_return
 }
 
@@ -149,6 +156,7 @@ pub async fn delete_history_item(
     state: tauri::State<'_, MutableState<crate::state::State>>,
 ) -> Result<(), ()> {
     let mut state = state.write().await;
-    let _ =state.request_history.remove(index);
+    let _ = state.request_history.remove(index);
+    state.save_to_disk().map_err(|_| ())?;
     Ok(())
 }

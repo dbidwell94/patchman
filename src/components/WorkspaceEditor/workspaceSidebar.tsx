@@ -4,7 +4,6 @@ import Layers from "@mui/icons-material/Layers";
 import Accesstime from "@mui/icons-material/AccessTime";
 import Computer from "@mui/icons-material/Computer";
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
 
 export enum WorkspaceTab {
   Collections,

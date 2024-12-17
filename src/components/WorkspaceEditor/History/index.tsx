@@ -1,4 +1,4 @@
-import { HistoryState, RequestHistory, useRequestHistory } from "@/hooks/useRequestHistory";
+import { HistoryState, useRequestHistory } from "@/hooks/useRequestHistory";
 import { Box, Collapse, List, ListItemButton, ListItemIcon, Typography } from "@mui/material";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";

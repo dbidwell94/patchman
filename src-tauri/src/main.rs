@@ -7,7 +7,7 @@ mod request;
 mod state;
 
 use std::sync::Arc;
-use tauri::async_runtime::RwLock;
+use tauri::{async_runtime::RwLock, tray::TrayIconBuilder};
 
 pub type MutableState<T> = Arc<RwLock<T>>;
 
@@ -25,6 +25,13 @@ fn main() {
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_clipboard_manager::init())
         .manage(state)
+        .setup(|app| {
+            TrayIconBuilder::new()
+                .icon(app.default_window_icon().unwrap().clone())
+                .build(app)?;
+
+            Ok(())
+        })
         .invoke_handler(tauri::generate_handler![
             request::make_request,
             request::get_request_history,
