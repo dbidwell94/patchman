@@ -1,0 +1,17 @@
+{
+  "restApi": "API REST",
+  "settings": "Configuraciones",
+  "parameters": "Parámetros",
+  "headers": "Encabezados",
+  "body": "Cuerpo",
+  "send": "Enviar",
+  "save": "Guardar",
+  "delete": "Eliminar",
+  "keyValueTable": {
+    "key": "clave",
+    "value": "valor",
+    "options": "opciones",
+    "newKey": "nueva clave",
+    "newValue": "nuevo valor"
+  }
+}

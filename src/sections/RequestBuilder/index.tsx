@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { Box, styled, Tab, Tabs } from "@mui/material";
 import BodyBuilder from "./BodyBuilder";
 import UrlBar from "./UrlBar";
@@ -7,6 +7,7 @@ import MuiLink from "@/components/MuiLink";
 import { useAppPreferences } from "@/hooks/usePreferences";
 import HorizontalDivision from "@/components/HorizontalDivision";
 import Split from "react-split";
+import { useTranslation } from "react-i18next";
 
 const RequestBuilderWrapper = styled(Box)`
   flex-direction: column;
@@ -36,15 +37,16 @@ const RequestBuilderWrapper = styled(Box)`
 export default function RequestBuilder() {
   const [preferences] = useAppPreferences();
   const [tabIndex, setTabIndex] = useState(preferences.requestBuilderTabIndex);
+  const [t] = useTranslation();
 
   return (
     <RequestBuilderWrapper data-testid="requestBuilder">
       <UrlBar />
       <HorizontalDivision>
         <Tabs indicatorColor="secondary" value={tabIndex} onChange={(_, num) => setTabIndex(num)}>
-          <Tab label="Params" href="params" LinkComponent={MuiLink} />
-          <Tab label="Body" href="body" LinkComponent={MuiLink} />
-          <Tab label="Headers" href="headers" LinkComponent={MuiLink} />
+          <Tab label={t("parameters")} href="params" LinkComponent={MuiLink} />
+          <Tab label={t("body")} href="body" LinkComponent={MuiLink} />
+          <Tab label={t("headers")} href="headers" LinkComponent={MuiLink} />
         </Tabs>
       </HorizontalDivision>
       <Box flex="1">

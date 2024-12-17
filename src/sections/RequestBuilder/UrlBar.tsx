@@ -4,6 +4,7 @@ import SendIcon from "@mui/icons-material/Send";
 import SaveIcon from "@mui/icons-material/Save";
 import { HttpMethod, useRequestBody } from "@/hooks/useRequestBody";
 import { useState, useEffect, useRef, ChangeEvent, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 
 const urlBarSchema = yup.object().shape({
   method: yup.string().required().oneOf(Object.values(HttpMethod)),
@@ -34,6 +35,7 @@ export default function UrlBar() {
     method: "",
   });
   const [requestLoading, setRequestLoading] = useState(false);
+  const [t] = useTranslation();
 
   useEffect(() => {
     setRequestBody((prev) => ({
@@ -127,11 +129,11 @@ export default function UrlBar() {
           endIcon={<SendIcon />}
           onClick={onSubmit}
         >
-          Send
+          {t("send")}
           {requestLoading && <CircularProgress size={30} sx={(theme) => ({ position: "absolute" })} />}
         </Button>
         <Button variant="outlined" sx={{ height: "100%" }} endIcon={<SaveIcon />}>
-          Save
+          {t("save")}
         </Button>
       </Box>
     </UrlBarWrapper>

@@ -15,10 +15,15 @@ import {
 import DeleteIcon from "@mui/icons-material/DeleteOutline";
 import { nanoid } from "nanoid";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const ParamsBuilderWrapper = styled(Box)`
   padding: 0.5rem 1rem;
   overflow: hidden;
+
+  th.capitalize {
+    text-transform: capitalize;
+  }
 `;
 
 const TableInput = styled(Input)`
@@ -71,8 +76,8 @@ export function useKeyValueTableInputState(initialState: KeyedTableValue[]) {
 
 export default function KeyValueTableInput(props: ITableInputProps) {
   const { items, onDelete, editItem, onAdded, readonly } = props;
-
   const [itemToAdd, setItemToAdd] = useState<Partial<Omit<KeyedTableValue, "id">>>({});
+  const [t] = useTranslation();
 
   return (
     <ParamsBuilderWrapper>
@@ -80,9 +85,17 @@ export default function KeyValueTableInput(props: ITableInputProps) {
         <Table size="small" stickyHeader>
           <TableHead>
             <TableRow>
-              <TableCell width={"33%"}>KEY</TableCell>
-              <TableCell width={"33%"}>VALUE</TableCell>
-              {!readonly && <TableCell width={"33%"}>OPTIONS</TableCell>}
+              <TableCell className="capitalize" width={"33%"}>
+                {t("keyValueTable.key")}
+              </TableCell>
+              <TableCell className="capitalize" width={"33%"}>
+                {t("keyValueTable.value")}
+              </TableCell>
+              {!readonly && (
+                <TableCell className="capitalize" width={"33%"}>
+                  {t("keyValueTable.options")}
+                </TableCell>
+              )}
             </TableRow>
           </TableHead>
           <TableBody data-testid="paramsTable">
@@ -123,7 +136,7 @@ export default function KeyValueTableInput(props: ITableInputProps) {
                   {!readonly && (
                     <TableCell width={"33%"}>
                       {/** Delete Button */}
-                      <Tooltip title="Delete Parameter">
+                      <Tooltip title={t("delete")}>
                         <IconButton
                           color="error"
                           onClick={() => {
@@ -149,8 +162,9 @@ export default function KeyValueTableInput(props: ITableInputProps) {
               >
                 <TableCell>
                   <TableInput
-                    placeholder="newKey"
+                    placeholder={t("keyValueTable.newKey")}
                     size={"small"}
+                    className="capitalize"
                     value={itemToAdd.key || ""}
                     onChange={(e) => {
                       console.log(e);
@@ -162,7 +176,7 @@ export default function KeyValueTableInput(props: ITableInputProps) {
                 </TableCell>
                 <TableCell>
                   <TableInput
-                    placeholder="newValue"
+                    placeholder={t("keyValueTable.newValue")}
                     value={itemToAdd.value || ""}
                     size={"small"}
                     onChange={(e) => {

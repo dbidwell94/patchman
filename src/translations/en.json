@@ -1,0 +1,17 @@
+{
+  "restApi": "REST API",
+  "settings": "Settings",
+  "parameters": "Parameters",
+  "headers": "Headers",
+  "body": "Body",
+  "send": "Send",
+  "save": "Save",
+  "delete": "Delete",
+  "keyValueTable": {
+    "key": "key",
+    "value": "value",
+    "options": "options",
+    "newKey": "new key",
+    "newValue": "new value"
+  }
+}
