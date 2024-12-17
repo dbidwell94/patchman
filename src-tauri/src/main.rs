@@ -27,7 +27,8 @@ fn main() {
         .manage(state)
         .invoke_handler(tauri::generate_handler![
             request::make_request,
-            request::get_request_history
+            request::get_request_history,
+            request::delete_history_item
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

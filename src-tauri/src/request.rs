@@ -142,3 +142,13 @@ pub async fn get_request_history(
     let state = state.read().await;
     Ok(state.request_history.clone())
 }
+
+#[tauri::command]
+pub async fn delete_history_item(
+    index: usize,
+    state: tauri::State<'_, MutableState<crate::state::State>>,
+) -> Result<(), ()> {
+    let mut state = state.write().await;
+    let _ =state.request_history.remove(index);
+    Ok(())
+}

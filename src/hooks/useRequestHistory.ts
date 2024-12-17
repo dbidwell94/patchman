@@ -12,11 +12,16 @@ type ErrResult = {
   requestTimeMs: number;
 };
 
-export type RequestHistory = [RequestContext, Date, RustResult<Response, ErrResult>][];
+export type RequestHistoryItem = [RequestContext, Date, RustResult<Response, ErrResult>];
 
-const initialRequestHistory: RequestHistory = [];
+export type RequestHistory = RequestHistoryItem[];
 
-export const requestHistoryAtom = atom<RequestHistory>(initialRequestHistory);
+export type HistoryState = {
+  index: number;
+  history: RequestHistoryItem;
+}[];
+
+export const requestHistoryAtom = atom<HistoryState>([]);
 
 export function useRequestHistory() {
   const [history, setHistory] = useAtom(requestHistoryAtom);
@@ -24,13 +29,22 @@ export function useRequestHistory() {
 
   useEffect(() => {
     invoke<RequestHistory>("get_request_history").then((history) => {
-      const normalizedHistory = history.map((history) => {
+      const normalizedHistory = history.map((history, index) => {
         const date = new Date(history[1]);
-        return [history[0], date, history[2]] as RequestHistory[number];
+        return { index, history: [history[0], date, history[2]] } as HistoryState[number];
       });
       setHistory(normalizedHistory);
     });
   }, [responseBody]);
 
   return history;
+}
+
+export function useDeleteHistoryItem() {
+  const [, setHistory] = useAtom(requestHistoryAtom);
+
+  return async (index: number) => {
+    await invoke("delete_history_item", { index });
+    setHistory((prev) => prev.filter((_, i) => i !== index));
+  };
 }
