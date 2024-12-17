@@ -1,7 +1,8 @@
 import { useResponseBody } from "@/hooks/useResponseBody";
 import { invoke } from "@tauri-apps/api/core";
 import type { Response } from "@/hooks/useResponseBody";
-import { createContext, Dispatch, PropsWithChildren, SetStateAction, useContext, useState } from "react";
+import { createContext, Dispatch, SetStateAction } from "react";
+import { atom, useAtom } from "jotai";
 
 export enum HttpMethod {
   Get = "GET",
@@ -12,7 +13,7 @@ export enum HttpMethod {
   Options = "OPTIONS",
 }
 
-export interface IRequestContext {
+export interface RequestContext {
   url: string;
   params: Record<string, string>;
   headers: Record<string, number | string>;
@@ -20,22 +21,19 @@ export interface IRequestContext {
   body?: string;
 }
 
-type IRequestContextReturn = [IRequestContext, Dispatch<SetStateAction<IRequestContext>>];
+export const initialRequestState: RequestContext = {
+  url: "",
+  params: {},
+  headers: {},
+  body: undefined,
+  method: HttpMethod.Get,
+};
 
-const RequestBodyContext = createContext<IRequestContextReturn>([
-  {
-    url: "",
-    params: {},
-    headers: {},
-    body: undefined,
-    method: HttpMethod.Get,
-  },
-  () => {},
-]);
+export const requestStateAtom = atom<RequestContext>(initialRequestState);
 
-export function useRequestBody(): [IRequestContextReturn, () => Promise<void>] {
+export function useRequestBody() {
   const [_, setResponseBody] = useResponseBody();
-  const [requestBody, setRequestBody] = useContext(RequestBodyContext);
+  const [requestBody, setRequestBody] = useAtom(requestStateAtom);
 
   async function send() {
     let toReturn: Response | null = null;
@@ -51,17 +49,5 @@ export function useRequestBody(): [IRequestContextReturn, () => Promise<void>] {
     setResponseBody(toReturn);
   }
 
-  return [[requestBody, setRequestBody], send];
-}
-
-export default function RequestBodyProvider(props: PropsWithChildren) {
-  const requestState = useState<IRequestContext>({
-    url: "",
-    params: {},
-    headers: {},
-    body: undefined,
-    method: HttpMethod.Get,
-  });
-
-  return <RequestBodyContext.Provider value={requestState}>{props.children}</RequestBodyContext.Provider>;
+  return [[requestBody, setRequestBody], send] as const;
 }

@@ -1,4 +1,4 @@
-import { PropsWithChildren, createContext, useState, useContext, Dispatch, SetStateAction } from "react";
+import { atom, useAtom } from "jotai";
 
 export interface Preferences {
   bodyBuilderSeperatorLocation: number;
@@ -12,17 +12,8 @@ const initialPreferencesState: Preferences = {
   urlHistory: [],
 };
 
-const PreferencesContext = createContext<[Preferences, Dispatch<SetStateAction<Preferences>>]>([
-  initialPreferencesState,
-  () => {},
-]);
+export const preferencesAtom = atom<Preferences>(initialPreferencesState);
 
 export function useAppPreferences() {
-  return useContext(PreferencesContext);
-}
-
-export default function PreferencesProvider(props: PropsWithChildren) {
-  const preferencesState = useState<Preferences>(initialPreferencesState);
-
-  return <PreferencesContext.Provider value={preferencesState}>{props.children}</PreferencesContext.Provider>;
+  return useAtom(preferencesAtom);
 }

@@ -1,4 +1,4 @@
-import { createContext, useState, useContext, SetStateAction, Dispatch, PropsWithChildren } from "react";
+import { atom, useAtom } from "jotai";
 
 type ResponseContextManagedState = Response | null;
 
@@ -10,16 +10,8 @@ export interface Response {
   requestTimeMs: number;
 }
 
-const ResponseContext = createContext<
-  [ResponseContextManagedState, Dispatch<SetStateAction<ResponseContextManagedState>>]
->([null, () => {}]);
+export const responseStateAtom = atom<ResponseContextManagedState>(null);
 
 export function useResponseBody() {
-  return useContext(ResponseContext);
-}
-
-export default function ResponseBodyProvider(props: PropsWithChildren) {
-  const responseState = useState<ResponseContextManagedState>(null);
-
-  return <ResponseContext.Provider value={responseState}>{props.children}</ResponseContext.Provider>;
+  return useAtom(responseStateAtom);
 }

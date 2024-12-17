@@ -167,7 +167,6 @@ export default function KeyValueTableInput(props: ITableInputProps) {
                     className="capitalize"
                     value={itemToAdd.key || ""}
                     onChange={(e) => {
-                      console.log(e);
                       setItemToAdd((prev) => {
                         return { ...prev, key: e?.target.value };
                       });
