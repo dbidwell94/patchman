@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 import { Box, styled, Tab, Tabs } from "@mui/material";
 import BodyBuilder from "./BodyBuilder";
 import UrlBar from "./UrlBar";
@@ -7,6 +7,8 @@ import MuiLink from "@/components/MuiLink";
 import { useAppPreferences } from "@/hooks/usePreferences";
 import HorizontalDivision from "@/components/HorizontalDivision";
 import Split from "react-split";
+import { useTranslation } from "react-i18next";
+import WorkspaceEditor from "@/components/WorkspaceEditor";
 
 const RequestBuilderWrapper = styled(Box)`
   flex-direction: column;
@@ -34,66 +36,35 @@ const RequestBuilderWrapper = styled(Box)`
 `;
 
 export default function RequestBuilder() {
-  const [preferences, setPreferences] = useAppPreferences();
-  const [separator, setSeparator] = useState(preferences.bodyBuilderSeperatorLocation);
-  const [draggingSeparator, setDraggingSeparator] = useState(false);
+  const [preferences] = useAppPreferences();
   const [tabIndex, setTabIndex] = useState(preferences.requestBuilderTabIndex);
-
-  const separatorRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    setPreferences((prev) => ({
-      ...prev,
-      bodyBuilderSeperatorLocation: separator,
-    }));
-  }, [separator]);
-
-  useEffect(() => {
-    setPreferences((prev) => ({ ...prev, requestBuilderTabIndex: tabIndex }));
-  }, [tabIndex]);
-
-  function handleMouseMove(evt: any): void {
-    if (!draggingSeparator || !separatorRef.current) return;
-    evt.preventDefault();
-
-    const yInput = evt.pageY;
-
-    const pageUpperY = Math.max(evt.pageY, separatorRef.current.parentElement!.offsetTop);
-    const pageLowerY = separatorRef.current.parentElement!.clientHeight + separatorRef.current.parentElement!.offsetTop;
-
-    // Clamp y input between upper and lower bounds of container
-    // and subtract offsetTop
-    const clampY =
-      (yInput > pageLowerY ? pageLowerY : yInput < pageUpperY ? pageUpperY : yInput) -
-      separatorRef.current.parentElement!.offsetTop;
-
-    const percentage = (clampY / separatorRef.current.parentElement!.clientHeight) * 100;
-
-    // Clamp percentage between 25 and 75 percent
-
-    setSeparator(percentage > 75 ? 75 : percentage < 25 ? 25 : percentage);
-  }
+  const [t] = useTranslation();
 
   return (
-    <RequestBuilderWrapper
-      data-testid="requestBuilder"
-      onMouseUp={() => setDraggingSeparator(false)}
-      onMouseMove={handleMouseMove}
-    >
+    <RequestBuilderWrapper data-testid="requestBuilder">
       <UrlBar />
-      <HorizontalDivision>
-        <Tabs indicatorColor="secondary" value={tabIndex} onChange={(_, num) => setTabIndex(num)}>
-          <Tab label="Params" href="params" LinkComponent={MuiLink} />
-          <Tab label="Body" href="body" LinkComponent={MuiLink} />
-          <Tab label="Headers" href="headers" LinkComponent={MuiLink} />
-        </Tabs>
-      </HorizontalDivision>
-      <Box flex="1" position="relative">
-        <Split direction="vertical" style={{ height: "100%" }}>
-          <BodyBuilder height={100} />
-          <RequestResponse height={100} />
-        </Split>
-      </Box>
+
+      <Split direction="horizontal" style={{ height: "100%", display: "flex" }} sizes={[80, 20]}>
+        <Box display="flex" flexDirection="column" flex="1">
+          <HorizontalDivision>
+            <Tabs indicatorColor="secondary" value={tabIndex} onChange={(_, num) => setTabIndex(num)}>
+              <Tab label={t("parameters")} href="/rest/params" LinkComponent={MuiLink} />
+              <Tab label={t("body")} href="/rest/body" LinkComponent={MuiLink} />
+              <Tab label={t("headers")} href="/rest/headers" LinkComponent={MuiLink} />
+            </Tabs>
+          </HorizontalDivision>
+          <Box flex="1">
+            <Split direction="vertical" style={{ height: "100%" }}>
+              <BodyBuilder height={100} />
+              <RequestResponse height={100} />
+            </Split>
+          </Box>
+        </Box>
+
+        <Box>
+          <WorkspaceEditor />
+        </Box>
+      </Split>
     </RequestBuilderWrapper>
   );
 }

@@ -1,17 +1,17 @@
 import { useEffect } from "react";
 import { nanoid } from "nanoid";
 import { useRequestBody } from "@/hooks/useRequestBody";
-import KeyValueTableInput, { IKeyedTableValue, useKeyValueTableInputState } from "@/components/KeyValueTableInput";
+import KeyValueTableInput, { KeyedTableValue, useKeyValueTableInputState } from "@/components/KeyValueTableInput";
 
-interface IParamsBuilderProps {}
+interface ParamsBuilderProps {}
 
-export default function ParamsBuilder(props: IParamsBuilderProps) {
+export default function ParamsBuilder(props: ParamsBuilderProps) {
   const [[requestBody, setRequestBody]] = useRequestBody();
 
   const { items, setItems, editItem, addItem, deleteItem } = useKeyValueTableInputState([]);
 
   useEffect(() => {
-    const initialState: IKeyedTableValue[] = [];
+    const initialState: KeyedTableValue[] = [];
     Object.keys(requestBody.params).forEach((key) => {
       initialState.push({
         id: nanoid(),

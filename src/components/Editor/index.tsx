@@ -32,7 +32,7 @@ const supportedLanguageMap = {
   [SupportedLanguage.HTML]: html(),
 };
 
-interface IEditorProps {
+interface EditorProps {
   value: string;
   onChange: (value: string) => void;
   readOnly?: boolean;
@@ -43,7 +43,7 @@ interface IEditorProps {
   stateMemo?: any;
 }
 
-export default function Editor(props: IEditorProps) {
+export default function Editor(props: EditorProps) {
   let { language } = props;
   if (!language) language = SupportedLanguage.None;
   const rootElement = useRef(null);

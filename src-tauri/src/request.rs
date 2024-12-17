@@ -1,11 +1,15 @@
+use chrono::{DateTime, Utc};
 use reqwest::header::{HeaderMap, HeaderName, HeaderValue};
 use reqwest::Client;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
+use std::hash::Hash;
 use std::str::FromStr;
 use std::time::Instant;
 
-#[derive(Serialize, Deserialize, Debug)]
+use crate::MutableState;
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct RequestError {
     status: Option<u16>,
@@ -13,7 +17,7 @@ pub struct RequestError {
     request_time_ms: u64,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Hash, Clone, Eq, PartialEq)]
 pub enum HttpMethod {
     GET,
     PUT,
@@ -22,7 +26,7 @@ pub enum HttpMethod {
     PATCH,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, Clone, Eq, PartialEq)]
 pub struct Request {
     url: String,
     method: HttpMethod,
@@ -31,7 +35,25 @@ pub struct Request {
     headers: HashMap<String, String>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+impl Hash for Request {
+    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+        self.url.hash(state);
+        self.method.hash(state);
+        self.body.hash(state);
+        // hash the params and headers
+        for (key, value) in &self.params {
+            key.hash(state);
+            value.hash(state);
+        }
+
+        for (key, value) in &self.headers {
+            key.hash(state);
+            value.hash(state);
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
 pub struct Response {
     status: u16,
@@ -42,14 +64,17 @@ pub struct Response {
 }
 
 #[tauri::command]
-pub async fn make_request(req: Request) -> Result<Response, RequestError> {
+pub async fn make_request(
+    req: Request,
+    state: tauri::State<'_, MutableState<crate::state::State>>,
+) -> Result<Response, RequestError> {
     let client = Client::new();
 
     let mut headers: HeaderMap = Default::default();
-    for (key, value) in req.headers {
+    for (key, value) in &req.headers {
         headers.insert(
-            HeaderName::from_str(&key).unwrap(),
-            HeaderValue::from_str(&value).unwrap(),
+            HeaderName::from_str(key).unwrap(),
+            HeaderValue::from_str(value).unwrap(),
         );
     }
 
@@ -57,11 +82,11 @@ pub async fn make_request(req: Request) -> Result<Response, RequestError> {
     let timer = Instant::now();
 
     let response_result = match req.method {
-        HttpMethod::GET => client.get(req.url),
-        HttpMethod::PUT => client.put(req.url),
-        HttpMethod::DELETE => client.delete(req.url),
-        HttpMethod::POST => client.post(req.url),
-        HttpMethod::PATCH => client.patch(req.url),
+        HttpMethod::GET => client.get(&req.url),
+        HttpMethod::PUT => client.put(&req.url),
+        HttpMethod::DELETE => client.delete(&req.url),
+        HttpMethod::POST => client.post(&req.url),
+        HttpMethod::PATCH => client.patch(&req.url),
     }
     .headers(headers)
     .query(&req.params)
@@ -102,25 +127,36 @@ pub async fn make_request(req: Request) -> Result<Response, RequestError> {
         }
     };
 
+    let now = chrono::Utc::now();
+
+    let mut state = state.write().await;
+    state.request_history.push((req, now, to_return.clone()));
+
+    match state.save_to_disk() {
+        Ok(_) => {}
+        Err(e) => {
+            eprintln!("Error saving state to disk: {:?}", e);
+        }
+    }
+
     to_return
 }
 
-#[cfg(test)]
-mod tests {
-    use super::{make_request, HttpMethod, Request};
-    use std::collections::HashMap;
+#[tauri::command]
+pub async fn get_request_history(
+    state: tauri::State<'_, MutableState<crate::state::State>>,
+) -> Result<Vec<(Request, DateTime<Utc>, Result<Response, RequestError>)>, ()> {
+    let state = state.read().await;
+    Ok(state.request_history.clone())
+}
 
-    #[tokio::test]
-    async fn test_make_request() {
-        let req = Request {
-            body: None,
-            url: String::from("https://jsonplaceholder.typicode.com/todos/1"),
-            params: HashMap::new(),
-            method: HttpMethod::GET,
-            headers: HashMap::new(),
-        };
-
-        let res = make_request(req).await;
-        assert_ne!(true, res.is_err());
-    }
+#[tauri::command]
+pub async fn delete_history_item(
+    index: usize,
+    state: tauri::State<'_, MutableState<crate::state::State>>,
+) -> Result<(), ()> {
+    let mut state = state.write().await;
+    let _ = state.request_history.remove(index);
+    state.save_to_disk().map_err(|_| ())?;
+    Ok(())
 }
