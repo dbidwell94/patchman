@@ -13,5 +13,11 @@
     "options": "opciones",
     "newKey": "nueva clave",
     "newValue": "nuevo valor"
+  },
+  "workspaceEditor": {
+    "collections": "Colecciones",
+    "environment": "Entorno",
+    "savedRequests": "Solicitudes guardadas",
+    "history": "Historial"
   }
 }

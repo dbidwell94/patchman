@@ -8,6 +8,7 @@ import { useAppPreferences } from "@/hooks/usePreferences";
 import HorizontalDivision from "@/components/HorizontalDivision";
 import Split from "react-split";
 import { useTranslation } from "react-i18next";
+import WorkspaceEditor from "@/components/workspaceEditor";
 
 const RequestBuilderWrapper = styled(Box)`
   flex-direction: column;
@@ -42,19 +43,28 @@ export default function RequestBuilder() {
   return (
     <RequestBuilderWrapper data-testid="requestBuilder">
       <UrlBar />
-      <HorizontalDivision>
-        <Tabs indicatorColor="secondary" value={tabIndex} onChange={(_, num) => setTabIndex(num)}>
-          <Tab label={t("parameters")} href="params" LinkComponent={MuiLink} />
-          <Tab label={t("body")} href="body" LinkComponent={MuiLink} />
-          <Tab label={t("headers")} href="headers" LinkComponent={MuiLink} />
-        </Tabs>
-      </HorizontalDivision>
-      <Box flex="1">
-        <Split direction="vertical" style={{ height: "100%" }}>
-          <BodyBuilder height={100} />
-          <RequestResponse height={100} />
-        </Split>
-      </Box>
+
+      <Split direction="horizontal" style={{ height: "100%", display: "flex" }}>
+        <Box display="flex" flexDirection="column" flex="1">
+          <HorizontalDivision>
+            <Tabs indicatorColor="secondary" value={tabIndex} onChange={(_, num) => setTabIndex(num)}>
+              <Tab label={t("parameters")} href="/rest/params" LinkComponent={MuiLink} />
+              <Tab label={t("body")} href="/rest/body" LinkComponent={MuiLink} />
+              <Tab label={t("headers")} href="/rest/headers" LinkComponent={MuiLink} />
+            </Tabs>
+          </HorizontalDivision>
+          <Box flex="1">
+            <Split direction="vertical" style={{ height: "100%" }}>
+              <BodyBuilder height={100} />
+              <RequestResponse height={100} />
+            </Split>
+          </Box>
+        </Box>
+
+        <Box>
+          <WorkspaceEditor />
+        </Box>
+      </Split>
     </RequestBuilderWrapper>
   );
 }

@@ -1,7 +1,7 @@
 import { useAppPreferences } from "@/hooks/usePreferences";
 import { Box } from "@mui/material";
 import { useEffect } from "react";
-import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import HeaderBuilder from "./HeaderBuilder";
 import ParamsBuilder from "./ParamsBuilder";
 import RequestBodyBuilder from "./RequestBodyBuilder";
@@ -13,6 +13,9 @@ interface BodyBuilderProps {
 export default function BodyBuilder(props: BodyBuilderProps) {
   const [preferences, _] = useAppPreferences();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+
+  console.log({ pathname });
 
   // When mounting this page, go back to the previous URL that contains a /rest/*
   useEffect(() => {
